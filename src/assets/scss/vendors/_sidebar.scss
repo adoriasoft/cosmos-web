@@ -1,0 +1,49 @@
+.sidebar {
+  padding: 20px 30px;
+  /*background: white;*/
+  background: #eef8ff;
+  font-family: 'Roboto', sans-serif;
+  min-width: 230px;
+
+  .sidebar-title {
+    //text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #222;
+    font-size: 16px;
+    //padding-left: 15px;
+    margin-bottom: 5px;
+    border-left: 2px solid #000000;
+  }
+
+  .sidebar-list {
+    padding: 0;
+    list-style: none;
+
+    a {
+      text-decoration: none;
+      outline: none;
+      display: block;
+      padding: 6px 0;
+      letter-spacing: 1px;
+      font-weight: 300;
+      color: #444;
+      transition: .1s linear;
+
+      &:before {
+        content: "";
+        margin-right: 14px;
+      }
+
+      &:hover {
+        color: #b99d61;
+      }
+    }
+  }
+}
+
+.router-wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  min-height: 800px;
+}
