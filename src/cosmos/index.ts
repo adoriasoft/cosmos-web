@@ -11,7 +11,6 @@ import {
     setupStakingExtension,
     setupSupplyExtension
 } from "@cosmjs/launchpad";
-import {Proposal} from "@cosmjs/launchpad/build/lcdapi/gov";
 
 
 const cosmosClient = LcdClient.withExtensions(
