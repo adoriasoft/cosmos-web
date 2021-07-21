@@ -2,7 +2,7 @@ import {ProposalAction, ProposalActionTypes, ProposalState} from "../../types/pr
 
 const initialState: ProposalState = {
     proposals: null,
-    proposalItem: null,
+    proposalDetail: null,
     isFetchingProposals: false,
     isFetchingItem: false,
     error: null
@@ -20,12 +20,12 @@ export const proposalReducer = (state = initialState, action: ProposalAction): P
         case ProposalActionTypes.PROPOSAL_DETAIL_CALL:
             return {...state, isFetchingItem: true, error: null};
         case ProposalActionTypes.PROPOSAL_DETAIL_SUCCESS:
-            return {...state, isFetchingItem: false, proposalItem: action.payload};
+            return {...state, isFetchingItem: false, proposalDetail: action.payload};
         case ProposalActionTypes.PROPOSAL_DETAIL_ERROR:
             return {...state, isFetchingItem: false, error: action.payload};
 
         case ProposalActionTypes.PROPOSAL_DETAIL_RESET:
-            return {...state, proposalItem: null};
+            return {...state, proposalDetail: null};
         default:
             return state;
     }

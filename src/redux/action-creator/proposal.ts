@@ -1,15 +1,13 @@
 import {Dispatch} from "redux";
-import {ProposalAction, ProposalActionTypes} from "../../types/proposal";
+import {ProposalAction, ProposalActionTypes, Proposal} from "../../types/proposal";
 import {cosmosClient} from "../../cosmos";
-import {Deposit, Proposal} from "@cosmjs/launchpad/build/lcdapi/gov";
-import {RootState} from "../reducers";
 
 export const fetchProposals = () => {
     return async (dispatch: Dispatch<ProposalAction>) => {
         try {
             dispatch({type: ProposalActionTypes.PROPOSAL_CALL})
             const proposals = (await cosmosClient.gov.proposals()).result.slice().reverse();
-            dispatch({type: ProposalActionTypes.PROPOSAL_SUCCESS, payload: proposals})
+            dispatch({type: ProposalActionTypes.PROPOSAL_SUCCESS, payload: proposals as Proposal[]})
         } catch (e) {
             dispatch({type: ProposalActionTypes.PROPOSAL_ERROR, payload: e.message || 'error'});
         }

@@ -1,4 +1,22 @@
-import {Deposit, Proposal} from "@cosmjs/launchpad/build/lcdapi/gov";
+import {Deposit, Proposal as ProposalCosmJS} from "@cosmjs/launchpad/build/lcdapi/gov";
+
+export interface Change {
+    key: string;
+    subspace: string;
+    value: string;
+}
+const a : Change = {key:'',subspace:'',value:''};
+export interface Proposal extends ProposalCosmJS {
+    readonly status: string;
+    readonly content: {
+        readonly type: string;
+        readonly value: {
+            readonly title: string;
+            readonly description: string;
+            readonly changes?: Change[]
+        };
+    };
+}
 
 interface IProposalDetail {
     proposer: string | null,
@@ -7,7 +25,7 @@ interface IProposalDetail {
 
 export interface ProposalState {
     proposals: Proposal[] | null;
-    proposalItem: IProposalDetail | null;
+    proposalDetail: IProposalDetail | null;
     isFetchingProposals: boolean;
     isFetchingItem: boolean;
     error: null | string;
