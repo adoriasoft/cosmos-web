@@ -7,13 +7,14 @@ import {routes} from "../../router";
 import Spinner from "../Loader/Spinner";
 import {Deposit, Tally} from "@cosmjs/launchpad/build/lcdapi/gov";
 import {CoinPretty, Dec} from "@keplr-wallet/unit";
+import {Change} from "../../types/proposal";
 
 const ProposalDetail: React.FC = () => {
         const history = useHistory();
         const {params: {id}} = useRouteMatch<{ id: string }>();
 
         const {
-            proposalItem,
+            proposalDetail,
             proposals,
             isFetchingProposals,
             isFetchingItem,
@@ -36,6 +37,10 @@ const ProposalDetail: React.FC = () => {
             history.push(routes.proposals)
         }
 
+        const toDate = (date: string): string => {
+            return new Date(date).toUTCString();
+        }
+
 
         return (
             <div className={'item-content'}>
@@ -47,61 +52,69 @@ const ProposalDetail: React.FC = () => {
                         <td>Proposal ID</td>
                         <td>{proposal.id}</td>
                     </tr>
+
                     <tr>
                         <td>Proposer</td>
-                        <td>{isFetchingItem ? <Spinner/> : proposalItem?.proposer}</td>
-
+                        <td>{isFetchingItem ? <Spinner/> : proposalDetail?.proposer}</td>
                     </tr>
+
                     <tr>
                         <td>Title</td>
                         <td>{proposal.content.value.title}</td>
-
                     </tr>
+
                     <tr>
                         <td>Description</td>
                         <td>{proposal.content.value.description}</td>
-
                     </tr>
+
                     <tr>
                         <td>Proposal Type</td>
                         <td>{proposal.content.type}</td>
-
                     </tr>
+
                     <tr>
                         <td>Proposal Status</td>
-                        <td>{proposal.proposal_status || (proposal as any).status}</td>
-
+                        <td>{proposal.proposal_status || proposal.status}</td>
                     </tr>
+
                     <tr>
                         <td>Deposit</td>
-                        <td>{isFetchingItem ? <Spinner/> : <Deposits deposits={proposalItem?.deposits}/>}</td>
-
+                        <td>{isFetchingItem ? <Spinner/> : <Deposits deposits={proposalDetail?.deposits}/>}</td>
                     </tr>
+
                     <tr>
                         <td>Tally Result</td>
-                        <td>{<TallyResult results={proposal.final_tally_result}/>}</td>
-
+                        <td>{<TallyResultTable results={proposal.final_tally_result}/>}</td>
                     </tr>
+
+                    {proposal.content.value.changes &&
+                    <tr>
+                        <td>Changes</td>
+                        <td><ChangesTable changes={proposal.content.value.changes}/></td>
+                    </tr>}
+
                     <tr>
                         <td>Submit Time</td>
-                        <td>{proposal.submit_time}</td>
-
+                        <td>{toDate(proposal.submit_time)}</td>
                     </tr>
+
                     <tr>
                         <td>Deposit End Time</td>
-                        <td>{proposal.deposit_end_time}</td>
-
+                        <td>{toDate(proposal.deposit_end_time)}</td>
                     </tr>
+
                     <tr>
                         <td>Voting Start Time</td>
-                        <td>{proposal.voting_start_time}</td>
-
+                        <td>{toDate(proposal.voting_start_time)}</td>
                     </tr>
+
                     <tr>
                         <td>End Voting Time</td>
-                        <td>{proposal.deposit_end_time}</td>
-
+                        <td>{toDate(proposal.deposit_end_time)}</td>
                     </tr>
+
+
                     </tbody>
                 </table>)}
             </div>
@@ -109,7 +122,7 @@ const ProposalDetail: React.FC = () => {
     }
 ;
 
-const TallyResult: React.FC<{ results: Tally }> = ({results}) => {
+const TallyResultTable: React.FC<{ results: Tally }> = ({results}) => {
     return (<table>
         <tbody>
         <tr>
@@ -128,6 +141,28 @@ const TallyResult: React.FC<{ results: Tally }> = ({results}) => {
             <td>No with veto</td>
             <td>{results.no_with_veto}</td>
         </tr>
+        </tbody>
+    </table>);
+}
+const ChangesTable: React.FC<{ changes: Change[] }> = ({changes}) => {
+    return (<table>
+        <thead>
+        <tr>
+            <th>Subspace</th>
+            <th>Key</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        <tbody>
+        {changes.map(change => (
+                <tr>
+                    <td>{change.subspace}</td>
+                    <td>{change.key}</td>
+                    <td>{change.value}</td>
+                </tr>
+            )
+        )}
+
         </tbody>
     </table>);
 }
