@@ -1,15 +1,15 @@
 import {Deposit, Proposal} from "@cosmjs/launchpad/build/lcdapi/gov";
 
 interface IProposalDetail {
-    proposal: Proposal,
-    proposer: string,
-    deposits: readonly Deposit[]
+    proposer: string | null,
+    deposits: readonly Deposit[] | null
 }
 
 export interface ProposalState {
     proposals: Proposal[] | null;
     proposalItem: IProposalDetail | null;
-    loading: boolean;
+    isFetchingProposals: boolean;
+    isFetchingItem: boolean;
     error: null | string;
 }
 
@@ -21,6 +21,7 @@ export enum ProposalActionTypes {
     PROPOSAL_DETAIL_CALL = 'PROPOSAL_DETAIL_CALL',
     PROPOSAL_DETAIL_SUCCESS = 'PROPOSAL_DETAIL_SUCCESS',
     PROPOSAL_DETAIL_ERROR = 'PROPOSAL_DETAIL_ERROR',
+    PROPOSAL_DETAIL_RESET = 'PROPOSAL_DETAIL_RESET',
 }
 
 interface ProposalCallAction {
@@ -51,6 +52,9 @@ interface ProposalDetailErrorAction {
     payload: string;
 }
 
+interface ProposalDetailResetAction {
+    type: ProposalActionTypes.PROPOSAL_DETAIL_RESET;
+}
 
 export type ProposalAction =
     ProposalCallAction
@@ -58,4 +62,5 @@ export type ProposalAction =
     | ProposalErrorAction
     | ProposalDetailCallAction
     | ProposalDetailSuccessAction
-    | ProposalDetailErrorAction;
+    | ProposalDetailErrorAction
+    | ProposalDetailResetAction;

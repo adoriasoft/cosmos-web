@@ -3,25 +3,29 @@ import {ProposalAction, ProposalActionTypes, ProposalState} from "../../types/pr
 const initialState: ProposalState = {
     proposals: null,
     proposalItem: null,
-    loading: false,
+    isFetchingProposals: false,
+    isFetchingItem: false,
     error: null
 }
 
 export const proposalReducer = (state = initialState, action: ProposalAction): ProposalState => {
     switch (action.type) {
         case ProposalActionTypes.PROPOSAL_CALL:
-            return {...state, loading: true, error: null};
+            return {...state, isFetchingProposals: true, error: null};
         case ProposalActionTypes.PROPOSAL_SUCCESS:
-            return {...state, loading: false, proposals: action.payload};
+            return {...state, isFetchingProposals: false, proposals: action.payload};
         case ProposalActionTypes.PROPOSAL_ERROR:
-            return {...state, loading: false, error: action.payload};
+            return {...state, isFetchingProposals: false, error: action.payload};
 
         case ProposalActionTypes.PROPOSAL_DETAIL_CALL:
-            return {...state, loading: true, error: null};
+            return {...state, isFetchingItem: true, error: null};
         case ProposalActionTypes.PROPOSAL_DETAIL_SUCCESS:
-            return {...state, loading: false, proposalItem: action.payload};
+            return {...state, isFetchingItem: false, proposalItem: action.payload};
         case ProposalActionTypes.PROPOSAL_DETAIL_ERROR:
-            return {...state, loading: false, error: action.payload};
+            return {...state, isFetchingItem: false, error: action.payload};
+
+        case ProposalActionTypes.PROPOSAL_DETAIL_RESET:
+            return {...state, proposalItem: null};
         default:
             return state;
     }

@@ -1,7 +1,8 @@
 import {Dispatch} from "redux";
 import {ProposalAction, ProposalActionTypes} from "../../types/proposal";
 import {cosmosClient} from "../../cosmos";
-import {Deposit} from "@cosmjs/launchpad/build/lcdapi/gov";
+import {Deposit, Proposal} from "@cosmjs/launchpad/build/lcdapi/gov";
+import {RootState} from "../reducers";
 
 export const fetchProposals = () => {
     return async (dispatch: Dispatch<ProposalAction>) => {
@@ -19,14 +20,23 @@ export const fetchProposalDetail = (id: string) => {
     return async (dispatch: Dispatch<ProposalAction>) => {
         try {
             dispatch({type: ProposalActionTypes.PROPOSAL_DETAIL_CALL})
-            const proposal = (await cosmosClient.gov.proposal(id)).result;
-            const proposer = (await cosmosClient.gov.proposer(id)).result.proposer;
-            const deposits = (await cosmosClient.gov.deposits(id)).result;
 
-            dispatch({type: ProposalActionTypes.PROPOSAL_DETAIL_SUCCESS, payload: {proposal, proposer, deposits}})
+            const proposer = await cosmosClient.gov.proposer(id)
+                .then(data => data.result.proposer)
+                .catch(e => null);
+
+            const deposits = await cosmosClient.gov.deposits(id)
+                .then(data => data.result)
+                .catch(e => null);
+
+            dispatch({type: ProposalActionTypes.PROPOSAL_DETAIL_SUCCESS, payload: {proposer, deposits}})
         } catch (e) {
             dispatch({type: ProposalActionTypes.PROPOSAL_DETAIL_ERROR, payload: e.message || 'error'});
         }
     }
+}
+
+export const proposalDetailReset = () => {
+    return {type: ProposalActionTypes.PROPOSAL_DETAIL_RESET}
 }
 

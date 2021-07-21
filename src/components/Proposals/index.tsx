@@ -6,7 +6,7 @@ import {fetchProposals} from "../../redux/action-creator/proposal";
 
 
 const ProposalsPage: React.FC = () => {
-    const {loading, proposals, error} = useTypedSelector(state => state.proposal);
+    const {isFetchingProposals, proposals, error} = useTypedSelector(state => state.proposal);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -17,7 +17,7 @@ const ProposalsPage: React.FC = () => {
         <div className="proposals">
             <h4 className="title">Proposals</h4>
             <div className="container">
-                {loading ? "Loading" : null}
+                {isFetchingProposals ? "Loading" : null}
                 {error ? error : null}
                 <table>
                     <thead>
