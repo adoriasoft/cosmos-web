@@ -51,7 +51,7 @@ const ProposalDetail: React.FC = () => {
 
                     <tr>
                         <td>Proposer</td>
-                        <td>{isFetchingItem ? <Spinner/> : proposalDetail?.proposer}</td>
+                        <td>{isFetchingItem ? <Spinner/> : proposalDetail?.proposer || 'no data'}</td>
                     </tr>
 
                     <tr>
@@ -166,7 +166,7 @@ const ChangesTable: React.FC<{ changes: Change[] }> = ({changes}) => {
 
 const Deposits: React.FC<{ deposits: readonly Deposit[] | null | undefined }> = ({deposits}) => {
     if (!deposits) {
-        return <></>;
+        return <>no data</>;
     }
     const decToCoin = (amount: Dec): string => {
         return new CoinPretty(

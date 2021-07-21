@@ -1,10 +1,10 @@
 import React from 'react';
+import {PulseLoader} from "react-spinners";
+
 
 const Spinner = () => {
     return (
-        <div style={{color:'red'}}>
-           Loading...
-        </div>
+        <PulseLoader size={7}/>
     );
 };
 

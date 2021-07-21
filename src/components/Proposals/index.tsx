@@ -3,6 +3,7 @@ import ProposalItem from "./ProposalItem";
 import {useTypedSelector} from "../../redux/useTypedSelector";
 import {useDispatch} from "react-redux";
 import {fetchProposals} from "../../redux/action-creator/proposal";
+import Spinner from "../Loader/Spinner";
 
 
 const ProposalsPage: React.FC = () => {
@@ -15,9 +16,13 @@ const ProposalsPage: React.FC = () => {
 
     return (
         <div className="proposals">
-            <h4 className="title">Proposals</h4>
+            <h4 className="title">
+                Proposals
+                {isFetchingProposals && <Spinner/>}
+            </h4>
+
             <div className="container">
-                {isFetchingProposals ? "Loading" : null}
+
                 {error ? error : null}
                 <table>
                     <thead>
