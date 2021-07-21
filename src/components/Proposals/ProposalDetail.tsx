@@ -69,7 +69,7 @@ const ProposalDetail: React.FC = () => {
                     </tr>
                     <tr>
                         <td>Proposal Status</td>
-                        <td>{proposal.proposal_status}</td>
+                        <td>{proposal.proposal_status || (proposal as any).status}</td>
 
                     </tr>
                     <tr>
