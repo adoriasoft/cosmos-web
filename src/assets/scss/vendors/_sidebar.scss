@@ -1,33 +1,43 @@
 .sidebar {
-  padding: 20px 30px;
+  //padding-left: 5px;
   /*background: white;*/
-  background: #eef8ff;
+  background: $color-white;
   font-family: 'Roboto', sans-serif;
   min-width: 230px;
 
-  .sidebar-title {
-    //text-transform: uppercase;
-    letter-spacing: 2px;
-    color: #222;
-    font-size: 16px;
-    //padding-left: 15px;
-    margin-bottom: 5px;
-    border-left: 2px solid #000000;
-  }
+
+
 
   .sidebar-list {
     padding: 0;
     list-style: none;
 
+    .sidebar-item {
+      //text-transform: uppercase;
+      //letter-spacing: 2px;
+      color: #222;
+      font-size: 16px;
+      //box-shadow:0 0 20px #555;
+      //padding-left: 15px;
+      //text-align: center;
+      width: 100%;
+      //height: 50px;
+    }
+
     a {
-      text-decoration: none;
+    text-decoration: none;
       outline: none;
       display: block;
-      padding: 6px 0;
       letter-spacing: 1px;
       font-weight: 300;
       color: #444;
-      transition: .1s linear;
+      transition: .05s linear;
+
+      padding: 17px 0 6px;
+      //text-align: center;
+      height: 50px;
+
+
 
       &:before {
         content: "";
