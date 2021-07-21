@@ -8,6 +8,7 @@ import Spinner from "../Loader/Spinner";
 import {Deposit, Tally} from "@cosmjs/launchpad/build/lcdapi/gov";
 import {CoinPretty, Dec} from "@keplr-wallet/unit";
 import {Change} from "../../types/proposal";
+import {toPrettyDate} from "../../utills/toPrettyDate";
 
 const ProposalDetail: React.FC = () => {
         const history = useHistory();
@@ -36,11 +37,6 @@ const ProposalDetail: React.FC = () => {
         if (!proposal && !isFetchingProposals && proposals) {
             history.push(routes.proposals)
         }
-
-        const toDate = (date: string): string => {
-            return new Date(date).toUTCString();
-        }
-
 
         return (
             <div className={'item-content'}>
@@ -96,22 +92,22 @@ const ProposalDetail: React.FC = () => {
 
                     <tr>
                         <td>Submit Time</td>
-                        <td>{toDate(proposal.submit_time)}</td>
+                        <td>{toPrettyDate(proposal.submit_time)}</td>
                     </tr>
 
                     <tr>
                         <td>Deposit End Time</td>
-                        <td>{toDate(proposal.deposit_end_time)}</td>
+                        <td>{toPrettyDate(proposal.deposit_end_time)}</td>
                     </tr>
 
                     <tr>
                         <td>Voting Start Time</td>
-                        <td>{toDate(proposal.voting_start_time)}</td>
+                        <td>{toPrettyDate(proposal.voting_start_time)}</td>
                     </tr>
 
                     <tr>
                         <td>End Voting Time</td>
-                        <td>{toDate(proposal.deposit_end_time)}</td>
+                        <td>{toPrettyDate(proposal.deposit_end_time)}</td>
                     </tr>
 
 
