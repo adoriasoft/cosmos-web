@@ -5,7 +5,6 @@ export interface Change {
     subspace: string;
     value: string;
 }
-const a : Change = {key:'',subspace:'',value:''};
 export interface Proposal extends ProposalCosmJS {
     readonly status: string;
     readonly content: {
