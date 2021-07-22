@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import {Markdown} from 'react-showdown';
 import {useRouteMatch, useHistory} from 'react-router-dom';
 import {useTypedSelector} from "../../redux/useTypedSelector";
 import {useDispatch} from "react-redux";
@@ -45,68 +46,68 @@ const ProposalDetail: React.FC = () => {
                 {proposal && (<table>
                     <tbody>
                     <tr>
-                        <td>Proposal ID</td>
+                        <td><span> Proposal ID</span></td>
                         <td>{proposal.id}</td>
                     </tr>
 
                     <tr>
-                        <td>Proposer</td>
+                        <td><span>Proposer</span></td>
                         <td>{isFetchingItem ? <Spinner/> : proposalDetail?.proposer || 'no data'}</td>
                     </tr>
 
                     <tr>
-                        <td>Title</td>
+                        <td><span>Title</span></td>
                         <td>{proposal.content.value.title}</td>
                     </tr>
 
                     <tr>
-                        <td>Description</td>
-                        <td>{proposal.content.value.description}</td>
+                        <td><span>Description</span></td>
+                        <td><Markdown markdown={proposal.content.value.description}/></td>
                     </tr>
 
                     <tr>
-                        <td>Proposal Type</td>
+                        <td><span>Proposal Type</span></td>
                         <td>{proposal.content.type}</td>
                     </tr>
 
                     <tr>
-                        <td>Proposal Status</td>
+                        <td><span>Proposal Status</span></td>
                         <td>{proposal.proposal_status || proposal.status}</td>
                     </tr>
 
                     <tr>
-                        <td>Deposit</td>
+                        <td><span>Deposit</span></td>
                         <td>{isFetchingItem ? <Spinner/> : <Deposits deposits={proposalDetail?.deposits}/>}</td>
                     </tr>
 
                     <tr>
-                        <td>Tally Result</td>
+                        <td><span>Tally Result</span></td>
                         <td>{<TallyResultTable results={proposal.final_tally_result}/>}</td>
                     </tr>
 
                     {proposal.content.value.changes &&
                     <tr>
-                        <td>Changes</td>
+                        <td><span>Changes</span></td>
                         <td><ChangesTable changes={proposal.content.value.changes}/></td>
                     </tr>}
 
                     <tr>
-                        <td>Submit Time</td>
+                        <td><span>Submit Time</span></td>
                         <td>{toPrettyDate(proposal.submit_time)}</td>
                     </tr>
 
                     <tr>
-                        <td>Deposit End Time</td>
+                        <td><span>Deposit End Time</span></td>
                         <td>{toPrettyDate(proposal.deposit_end_time)}</td>
                     </tr>
 
                     <tr>
-                        <td>Voting Start Time</td>
+                        <td><span>Voting Start Time</span></td>
                         <td>{toPrettyDate(proposal.voting_start_time)}</td>
                     </tr>
 
                     <tr>
-                        <td>End Voting Time</td>
+                        <td><span>End Voting Time</span></td>
                         <td>{toPrettyDate(proposal.deposit_end_time)}</td>
                     </tr>
 
