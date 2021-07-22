@@ -10,6 +10,8 @@ import {Deposit, Tally} from "@cosmjs/launchpad/build/lcdapi/gov";
 import {CoinPretty, Dec} from "@keplr-wallet/unit";
 import {Change} from "../../types/proposal";
 import {toPrettyDate} from "../../utills/toPrettyDate";
+import {chainInfo} from "../../config";
+import {ScrollToTopOnMount} from "../ScrollToTopOnMount";
 
 const ProposalDetail: React.FC = () => {
         const history = useHistory();
@@ -32,15 +34,22 @@ const ProposalDetail: React.FC = () => {
             return () => {
                 dispatch(proposalDetailReset())
             };
-        }, []);
+        }, [dispatch, id, proposals]);
 
         const proposal = proposals?.find(p => p.id === id);
         if (!proposal && !isFetchingProposals && proposals) {
             history.push(routes.proposals)
         }
+        const toProposalStatus = (status: string | number): string | number => {
+            if (+status === 4) return 'Rejected';
+            if (+status === 3) return 'Passed';
+            if (+status === 2) return 'Voting Period';
+            return status;
+        }
 
         return (
             <div className={'item-content'}>
+                <ScrollToTopOnMount/>
                 {isFetchingProposals && <Spinner/>}
                 {error}
                 {proposal && (<table>
@@ -72,7 +81,7 @@ const ProposalDetail: React.FC = () => {
 
                     <tr>
                         <td><span>Proposal Status</span></td>
-                        <td>{proposal.proposal_status || proposal.status}</td>
+                        <td>{toProposalStatus(proposal.proposal_status || proposal.status)}</td>
                     </tr>
 
                     <tr>
@@ -142,26 +151,28 @@ const TallyResultTable: React.FC<{ results: Tally }> = ({results}) => {
     </table>);
 }
 const ChangesTable: React.FC<{ changes: Change[] }> = ({changes}) => {
-    return (<table>
-        <thead>
-        <tr>
-            <th>Subspace</th>
-            <th>Key</th>
-            <th>Value</th>
-        </tr>
-        </thead>
-        <tbody>
-        {changes.map(change => (
-                <tr>
-                    <td>{change.subspace}</td>
-                    <td>{change.key}</td>
-                    <td>{change.value}</td>
-                </tr>
-            )
-        )}
+    return (<div className="change-table">
+        <table>
+            <thead>
+            <tr>
+                <th>Subspace</th>
+                <th>Key</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            {changes.map((change, i) => (
+                    <tr key={i}>
+                        <td>{change.subspace}</td>
+                        <td>{change.key}</td>
+                        <td>{change.value}</td>
+                    </tr>
+                )
+            )}
 
-        </tbody>
-    </table>);
+            </tbody>
+        </table>
+    </div>);
 }
 
 
@@ -171,11 +182,7 @@ const Deposits: React.FC<{ deposits: readonly Deposit[] | null | undefined }> = 
     }
     const decToCoin = (amount: Dec): string => {
         return new CoinPretty(
-            {
-                coinDenom: "ATOM",
-                coinMinimalDenom: "uatom",
-                coinDecimals: 6,
-            },
+            chainInfo.currencies[0],
             amount
         ).trim(true).toString()
     }

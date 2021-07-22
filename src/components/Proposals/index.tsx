@@ -12,7 +12,7 @@ const ProposalsPage: React.FC = () => {
 
     useEffect(() => {
         dispatch(fetchProposals());
-    }, []);
+    }, [dispatch]);
 
     return (
         <div className="proposals">

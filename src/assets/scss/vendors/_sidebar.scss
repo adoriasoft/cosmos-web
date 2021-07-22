@@ -1,11 +1,11 @@
 .sidebar {
   //padding-left: 5px;
   /*background: white;*/
+  z-index: 1;
   background: $color-white;
   font-family: 'Roboto', sans-serif;
   min-width: 230px;
-
-
+  box-shadow: 0 0 20px rgba(20, 20, 20, 0.06);
 
 
   .sidebar-list {
@@ -15,7 +15,7 @@
     .sidebar-item {
       //text-transform: uppercase;
       //letter-spacing: 2px;
-      font-size: 16px;
+      //font-size: 16px;
       //box-shadow:0 0 20px #555;
       //padding-left: 15px;
       //text-align: center;
@@ -24,7 +24,7 @@
     }
 
     a {
-    text-decoration: none;
+      text-decoration: none;
       outline: none;
       display: block;
       letter-spacing: 1px;
@@ -36,7 +36,6 @@
       padding: 17px 0 6px;
       //text-align: center;
       height: 50px;
-
 
 
       &:before {
