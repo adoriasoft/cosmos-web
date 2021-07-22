@@ -24,7 +24,7 @@ const ProposalsPage: React.FC = () => {
             <div className="container">
 
                 {error ? error : null}
-                <table>
+                {proposals && <table>
                     <thead>
                     <tr>
                         <th>Proposal ID</th>
@@ -34,10 +34,9 @@ const ProposalsPage: React.FC = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {proposals && (
-                        proposals.map((p) => <ProposalItem proposal={p} key={p.id}/>))}
+                    {proposals.map((p) => <ProposalItem proposal={p} key={p.id}/>)}
                     </tbody>
-                </table>
+                </table>}
             </div>
         </div>
     );

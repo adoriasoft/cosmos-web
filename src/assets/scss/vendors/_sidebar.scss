@@ -15,7 +15,6 @@
     .sidebar-item {
       //text-transform: uppercase;
       //letter-spacing: 2px;
-      color: #222;
       font-size: 16px;
       //box-shadow:0 0 20px #555;
       //padding-left: 15px;
@@ -30,7 +29,8 @@
       display: block;
       letter-spacing: 1px;
       font-weight: 300;
-      color: #444;
+      color: $color-dark-gray;
+
       transition: .05s linear;
 
       padding: 17px 0 6px;
@@ -45,7 +45,7 @@
       }
 
       &:hover {
-        color: #b99d61;
+        color: black;
       }
     }
   }

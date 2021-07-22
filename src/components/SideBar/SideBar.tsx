@@ -5,8 +5,9 @@ import {routes} from "../../router";
 const active = {
     // color: '#ff0000',
     fontWeight: 700,
-    'box-shadow': '0 0 20px rgba(29, 29, 29, 0.13)',
-    'border-left': '3px solid #56CCF2'
+    boxShadow: '0 0 20px rgba(29, 29, 29, 0.13)',
+    borderLeft: '3px solid #56CCF2',
+    color:'black'
 
 };
 
