@@ -30,7 +30,7 @@ const ProposalsPage: React.FC = () => {
                         <th>Proposal ID</th>
                         <th>Title</th>
                         <th>Proposal Type</th>
-                        <th>Submit Time (UTC)</th>
+                        <th>Submit Time</th>
                     </tr>
                     </thead>
                     <tbody>
