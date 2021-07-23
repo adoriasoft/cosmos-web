@@ -12,10 +12,8 @@ export const connectWallet = () => {
             if (!keplr) {
                 throw new Error('Keplr extension not found');
             }
-
-            await keplr.experimentalSuggestChain(chainInfo);
             await keplr.enable(chainInfo.chainId);
-
+            await keplr.experimentalSuggestChain(chainInfo);
 
             dispatch({type: WalletActionTypes.WALLET_SUCCESS, payload: keplr})
         } catch (e) {
@@ -25,6 +23,7 @@ export const connectWallet = () => {
 }
 
 export const disconnectWallet = () => {
+    console.log('disconnect')
     return {type: WalletActionTypes.WALLET_DISCONNECT}
 }
 

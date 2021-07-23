@@ -26,7 +26,7 @@ export function useAccountConnection() {
         if (shouldAutoConnectAccount && !isConnected) {
             dispatch(connectWallet())
         }
-    }, [dispatch, isConnected, shouldAutoConnectAccount]);
+    }, [dispatch, isConnected]);
 
     return useMemo(() => {
         return {
