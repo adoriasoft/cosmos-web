@@ -44,7 +44,7 @@ module.exports = {
                 aspects: ["invalidHref", "preferButton"]
             }
         ],
-        quotes: ["error", "single"],
+        quotes: ["error", "double"],
         "linebreak-style": ["error", "unix"]
     }
 };
