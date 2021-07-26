@@ -1,6 +1,7 @@
 import React from 'react';
 import {NavLink, withRouter} from 'react-router-dom';
 import {routes} from "../../router";
+import SidebarBottom from "./SidebarBottom/SidebarBottom";
 
 const active = {
     // color: '#ff0000',
@@ -25,6 +26,7 @@ const SideBar: React.FC = () => {
                     <NavLink to={routes.adminModule} activeStyle={active}>Admin Module</NavLink>
                 </li>
             </ul>
+            <SidebarBottom/>
         </div>
     );
 };

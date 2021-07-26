@@ -23,7 +23,6 @@ export const connectWallet = () => {
 }
 
 export const disconnectWallet = () => {
-    console.log('disconnect')
     return {type: WalletActionTypes.WALLET_DISCONNECT}
 }
 
