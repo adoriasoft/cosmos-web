@@ -1,4 +1,4 @@
-import {Keplr} from "@keplr-wallet/types";
+import { Keplr } from "@keplr-wallet/types";
 
 export interface WalletState {
     keplr: Keplr | null;
@@ -7,10 +7,10 @@ export interface WalletState {
 }
 
 export enum WalletActionTypes {
-    WALLET_CONNECT = 'WALLET_CONNECT',
-    WALLET_DISCONNECT = 'WALLET_DISCONNECT',
-    WALLET_SUCCESS = 'WALLET_SUCCESS',
-    WALLET_ERROR = 'WALLET_ERROR',
+    WALLET_CONNECT = "WALLET_CONNECT",
+    WALLET_DISCONNECT = "WALLET_DISCONNECT",
+    WALLET_SUCCESS = "WALLET_SUCCESS",
+    WALLET_ERROR = "WALLET_ERROR"
 }
 
 interface WalletConnectAction {
@@ -31,9 +31,8 @@ interface WalletErrorAction {
     payload: string;
 }
 
-
 export type WalletAction =
-    WalletConnectAction
+    | WalletConnectAction
     | WalletDisconnectAction
     | WalletSuccessAction
     | WalletErrorAction;

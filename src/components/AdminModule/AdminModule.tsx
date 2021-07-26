@@ -1,11 +1,7 @@
-import React from 'react';
+import React from "react";
 
 const AdminModule = () => {
-    return (
-        <div>
-            AdminModule Page
-        </div>
-    );
+    return <div>AdminModule Page</div>;
 };
 
 export default AdminModule;

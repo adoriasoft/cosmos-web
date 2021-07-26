@@ -1,5 +1,5 @@
-import React, { FunctionComponent } from 'react';
-import { Sidebar } from './SideBar';
+import React, { FunctionComponent } from "react";
+import { Sidebar } from "./SideBar";
 
 const RouteWrapper: FunctionComponent = ({ children }) => {
     return (

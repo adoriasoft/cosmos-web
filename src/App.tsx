@@ -1,14 +1,15 @@
-import React from 'react';
+import React from "react";
 import RouteWrapper from "./components/SideBar/RouteWrapper";
-import {BrowserRouter, Switch, Route} from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Home from "./components/Home";
-import {routes} from "./router";
+import { routes } from "./router";
 import ReviewState from "./components/ReviewState/ReviewState";
 import ProposalsPage from "./components/Proposals";
 import AdminModule from "./components/AdminModule/AdminModule";
 import NotFoundPage from "./components/NotFound";
-import './assets/scss/main.scss';
+import "./assets/scss/main.scss";
 import ProposalDetail from "./components/Proposals/ProposalDetail";
+import AdminList from "./components/AdminList/AdminList";
 
 const App: React.FC = () => {
     return (
@@ -16,28 +17,33 @@ const App: React.FC = () => {
             <Switch>
                 <Route exact path={routes.home}>
                     <RouteWrapper>
-                        <Home/>
+                        <Home />
                     </RouteWrapper>
                 </Route>
 
                 <Route exact path={routes.reviewState}>
                     <RouteWrapper>
-                        <ReviewState/>
+                        <ReviewState />
                     </RouteWrapper>
                 </Route>
                 <Route exact path={routes.proposals}>
                     <RouteWrapper>
-                        <ProposalsPage/>
+                        <ProposalsPage />
                     </RouteWrapper>
                 </Route>
                 <Route exact path={routes.proposalItem}>
                     <RouteWrapper>
-                        <ProposalDetail/>
+                        <ProposalDetail />
                     </RouteWrapper>
                 </Route>
                 <Route exact path={routes.adminModule}>
                     <RouteWrapper>
-                        <AdminModule/>
+                        <AdminModule />
+                    </RouteWrapper>
+                </Route>
+                <Route exact path={routes.adminList}>
+                    <RouteWrapper>
+                        <AdminList />
                     </RouteWrapper>
                 </Route>
                 <Route>
@@ -47,7 +53,6 @@ const App: React.FC = () => {
                 </Route>
             </Switch>
         </BrowserRouter>
-
     );
 };
 
