@@ -14,6 +14,8 @@ export const adminListReducer = (state = initialState, action: AdminActions): Ad
             return { ...state, loading: action.payload.loading };
         case AdminListActionTypes.ERROR:
             return { ...state, error: action.payload.error };
+        case AdminListActionTypes.CLEAR_ERROR:
+            return { ...state, error: null };
         default:
             return state;
     }

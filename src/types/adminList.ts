@@ -13,12 +13,17 @@ export interface ErrorAction {
     payload: { error: string };
 }
 
-export type AdminActions = FetchAction | SetLoadingAction | ErrorAction;
+export interface ClearErrorAction {
+    type: AdminListActionTypes.CLEAR_ERROR;
+}
+
+export type AdminActions = FetchAction | SetLoadingAction | ErrorAction | ClearErrorAction;
 
 export enum AdminListActionTypes {
     SET_LIST = "SET_LIST",
     SET_LOADING = "SET_LOADING",
-    ERROR = "ERROR"
+    ERROR = "ERROR",
+    CLEAR_ERROR = "CLEAR_ERROR"
 }
 
 export interface AdminListState {

@@ -1,7 +1,13 @@
 import { Dispatch } from "redux";
+import { Bech32 } from "@cosmjs/encoding";
 import { cosmosClient, getKeplr } from "../../cosmos";
 import { getWalletAddress } from "../../cosmos/keplr";
-import { AdminActions, AdminListActionTypes } from "../../types/adminList";
+import {
+    AdminActions,
+    AdminListActionTypes,
+    ClearErrorAction,
+    ErrorAction
+} from "../../types/adminList";
 
 export let MOCK_ADMINS = [
     "cosmos106ljn6kasd12312x0w4jnend97fdm123asfg52",
@@ -9,8 +15,23 @@ export let MOCK_ADMINS = [
     "cosmosyy6ljdfgd5464564jfhfs73hd97fdm50yec59vq"
 ];
 
+export const sendErrorNotification = (
+    errMessage: string,
+    dispatch: Dispatch<ErrorAction | ClearErrorAction>
+): void => {
+    dispatch({
+        type: AdminListActionTypes.ERROR,
+        payload: { error: errMessage }
+    });
+    setTimeout(() => {
+        dispatch({
+            type: AdminListActionTypes.CLEAR_ERROR
+        });
+    }, 5000);
+};
+
 export const fetchAdminList = () => {
-    return async (dispatch: Dispatch<AdminActions>) => {
+    return async (dispatch: Dispatch<AdminActions>): Promise<void> => {
         try {
             dispatch({ type: AdminListActionTypes.SET_LOADING, payload: { loading: true } });
             // cosmosclient test
@@ -25,16 +46,13 @@ export const fetchAdminList = () => {
             dispatch({ type: AdminListActionTypes.SET_LOADING, payload: { loading: false } });
         } catch (error) {
             console.log("[Admin fetching error]", error);
-            dispatch({
-                type: AdminListActionTypes.ERROR,
-                payload: { error: "Error fetching admins: " + error.message }
-            });
+            sendErrorNotification("Error fetching admins: " + error.message, dispatch);
         }
     };
 };
 
 export const deleteAdminAction = (adminAddress: string) => {
-    return async (dispatch: Dispatch<AdminActions>) => {
+    return async (dispatch: Dispatch<AdminActions>): Promise<void> => {
         try {
             const kepler = await getKeplr();
             if (kepler) {
@@ -49,25 +67,25 @@ export const deleteAdminAction = (adminAddress: string) => {
                 MOCK_ADMINS = admins;
                 dispatch({ type: AdminListActionTypes.SET_LIST, payload: { admins } });
             } else {
-                dispatch({
-                    type: AdminListActionTypes.ERROR,
-                    payload: { error: "No Keplr wallet logged in" }
-                });
+                sendErrorNotification("No Keplr wallet logged in", dispatch);
             }
         } catch (error) {
             console.log("[Admin deletion error]", error);
             dispatch({
                 type: AdminListActionTypes.ERROR,
-                payload: { error: "Error fetching admins: " + error.message }
+                payload: { error: "Error during admin deletion: " + error.message }
             });
         }
     };
 };
 
 export const saveAdminAction = (adminAddress: string) => {
-    return async (dispatch: Dispatch<AdminActions>) => {
+    return async (dispatch: Dispatch<AdminActions>): Promise<void> => {
         try {
             console.log("in saving action", adminAddress);
+            // Address validation
+            const resp = Bech32.decode(adminAddress);
+            console.log("decoding", resp);
             const kepler = await getKeplr();
             if (kepler) {
                 const sender = await getWalletAddress(kepler);
@@ -90,10 +108,7 @@ export const saveAdminAction = (adminAddress: string) => {
             }
         } catch (error) {
             console.log("[Admin saving error]", error);
-            dispatch({
-                type: AdminListActionTypes.ERROR,
-                payload: { error: "Error fetching admins: " + error.message }
-            });
+            sendErrorNotification("Error saving new admin: " + error.message, dispatch);
         }
     };
 };
