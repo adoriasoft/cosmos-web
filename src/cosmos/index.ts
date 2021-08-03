@@ -12,7 +12,7 @@ import {
     setupSupplyExtension
 } from "@cosmjs/launchpad";
 
-const cosmosClient = LcdClient.withExtensions(
+const lcdClient = LcdClient.withExtensions(
     { apiUrl: chainInfo.rest },
     setupAuthExtension,
     setupBankExtension,
@@ -24,4 +24,4 @@ const cosmosClient = LcdClient.withExtensions(
     setupSupplyExtension
 );
 
-export { cosmosClient, getKeplr };
+export { lcdClient, getKeplr };
