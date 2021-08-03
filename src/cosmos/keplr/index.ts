@@ -1,7 +1,7 @@
 import { getKeplrFromWindow } from "@keplr-wallet/stores";
 import { Keplr } from "@keplr-wallet/types";
 import { chainInfo } from "../../config";
-import { cosmosClient } from "../index";
+import { lcdClient } from "../index";
 import { toPrettyCoin } from "../../utills/toPrettyCoin";
 
 export const getKeplr = getKeplrFromWindow;
@@ -17,7 +17,7 @@ export const getWalletAddress = async (keplr: Keplr): Promise<string> => {
 };
 
 export const getBalance = async (keplr: Keplr, walletAddress: string): Promise<string> => {
-    const coins = await cosmosClient.bank.balances(walletAddress).then((data) => data.result);
+    const coins = await lcdClient.bank.balances(walletAddress).then((data) => data.result);
     const res = coins.find((c) => c.denom === chainInfo.stakeCurrency.coinMinimalDenom);
     return toPrettyCoin(res?.amount || "0")
         .trim(true)
