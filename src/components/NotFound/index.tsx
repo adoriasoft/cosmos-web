@@ -1,6 +1,6 @@
-import React from 'react';
-import {NavLink} from "react-router-dom";
-import {routes} from "../../router";
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { routes } from "../../router";
 
 const NotFoundPage: React.FC = () => {
     return (

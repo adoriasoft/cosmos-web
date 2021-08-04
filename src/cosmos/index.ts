@@ -1,5 +1,5 @@
-import {getKeplr} from './keplr';
-import {restApi} from "../config";
+import { getKeplr } from "./keplr";
+import { restApi } from "../config";
 import {
     LcdClient,
     setupAuthExtension,
@@ -12,9 +12,8 @@ import {
     setupSupplyExtension
 } from "@cosmjs/launchpad";
 
-
 const cosmosClient = LcdClient.withExtensions(
-    {apiUrl: restApi},
+    { apiUrl: restApi },
     setupAuthExtension,
     setupBankExtension,
     setupDistributionExtension,
@@ -22,7 +21,7 @@ const cosmosClient = LcdClient.withExtensions(
     setupMintExtension,
     setupSlashingExtension,
     setupStakingExtension,
-    setupSupplyExtension,
+    setupSupplyExtension
 );
 
-export {cosmosClient, getKeplr, };
+export { cosmosClient, getKeplr };

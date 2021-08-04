@@ -1,5 +1,5 @@
-import * as ProposalActionCreators from './proposal';
+import * as ProposalActionCreators from "./proposal";
 
 export default {
     ...ProposalActionCreators
-}
+};

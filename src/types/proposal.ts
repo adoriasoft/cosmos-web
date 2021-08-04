@@ -1,4 +1,4 @@
-import {Deposit, Proposal as ProposalCosmJS} from "@cosmjs/launchpad/build/lcdapi/gov";
+import { Deposit, Proposal as ProposalCosmJS } from "@cosmjs/launchpad/build/lcdapi/gov";
 
 export interface Change {
     key: string;
@@ -12,14 +12,14 @@ export interface Proposal extends ProposalCosmJS {
         readonly value: {
             readonly title: string;
             readonly description: string;
-            readonly changes?: Change[]
+            readonly changes?: Change[];
         };
     };
 }
 
 interface IProposalDetail {
-    proposer: string | null,
-    deposits: readonly Deposit[] | null
+    proposer: string | null;
+    deposits: readonly Deposit[] | null;
 }
 
 export interface ProposalState {
@@ -31,18 +31,18 @@ export interface ProposalState {
 }
 
 export enum ProposalActionTypes {
-    PROPOSAL_CALL = 'PROPOSAL_CALL',
-    PROPOSAL_SUCCESS = 'PROPOSAL_SUCCESS',
-    PROPOSAL_ERROR = 'PROPOSAL_ERROR',
+    PROPOSAL_CALL = "PROPOSAL_CALL",
+    PROPOSAL_SUCCESS = "PROPOSAL_SUCCESS",
+    PROPOSAL_ERROR = "PROPOSAL_ERROR",
 
-    PROPOSAL_DETAIL_CALL = 'PROPOSAL_DETAIL_CALL',
-    PROPOSAL_DETAIL_SUCCESS = 'PROPOSAL_DETAIL_SUCCESS',
-    PROPOSAL_DETAIL_ERROR = 'PROPOSAL_DETAIL_ERROR',
-    PROPOSAL_DETAIL_RESET = 'PROPOSAL_DETAIL_RESET',
+    PROPOSAL_DETAIL_CALL = "PROPOSAL_DETAIL_CALL",
+    PROPOSAL_DETAIL_SUCCESS = "PROPOSAL_DETAIL_SUCCESS",
+    PROPOSAL_DETAIL_ERROR = "PROPOSAL_DETAIL_ERROR",
+    PROPOSAL_DETAIL_RESET = "PROPOSAL_DETAIL_RESET"
 }
 
 interface ProposalCallAction {
-    type: ProposalActionTypes.PROPOSAL_CALL
+    type: ProposalActionTypes.PROPOSAL_CALL;
 }
 
 interface ProposalSuccessAction {
@@ -56,7 +56,7 @@ interface ProposalErrorAction {
 }
 
 interface ProposalDetailCallAction {
-    type: ProposalActionTypes.PROPOSAL_DETAIL_CALL
+    type: ProposalActionTypes.PROPOSAL_DETAIL_CALL;
 }
 
 interface ProposalDetailSuccessAction {
@@ -74,7 +74,7 @@ interface ProposalDetailResetAction {
 }
 
 export type ProposalAction =
-    ProposalCallAction
+    | ProposalCallAction
     | ProposalSuccessAction
     | ProposalErrorAction
     | ProposalDetailCallAction
