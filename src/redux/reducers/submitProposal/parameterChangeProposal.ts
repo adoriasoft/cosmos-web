@@ -5,7 +5,7 @@ import {
 } from "../../../types/submitProposal/parameterChangeProposal";
 
 const initialState: ParameterChangeProposalState = {
-    data: {
+    proposal: {
         title: "",
         description: "",
         changes: []
@@ -18,7 +18,7 @@ export const parameterChangeProposalReducer = (
 ): ParameterChangeProposalState => {
     switch (action.type) {
         case ParameterChangeProposalTypes.PARAMETER_CHANGE_PROPOSAL_SAVE_DATA:
-            return { ...state, data: action.payload };
+            return { ...state, proposal: action.payload };
         default:
             return state;
     }

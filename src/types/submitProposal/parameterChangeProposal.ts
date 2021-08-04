@@ -1,7 +1,7 @@
 import { ParameterChangeProposal } from "../../cosmos/codec/cosmos/params/v1beta1/params";
 
 export interface ParameterChangeProposalState {
-    data: ParameterChangeProposal;
+    proposal: ParameterChangeProposal;
 }
 
 export enum ParameterChangeProposalTypes {
