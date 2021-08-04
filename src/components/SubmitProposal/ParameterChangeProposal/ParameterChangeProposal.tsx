@@ -1,24 +1,21 @@
-import React from "react";
-import { useTypedSelector } from "../../redux/useTypedSelector";
+import React, { useRef, useState } from "react";
+import { useTypedSelector } from "../../../redux/useTypedSelector";
 import { useDispatch } from "react-redux";
-import {
-    saveTextProposalData,
-    saveTextProposalDeposits,
-    submitTextProposal
-} from "../../redux/action-creator/submitProposal/textProposal";
 import { Coin } from "@cosmjs/stargate";
-import DepositForm from "./InitialDeposit/DepositForm";
-import DepositItem from "./InitialDeposit/DepositItem";
+import DepositForm from "../InitialDeposit/DepositForm";
+import DepositItem from "../InitialDeposit/DepositItem";
 import {
     saveParameterChangeProposalData,
-    saveParameterChangeProposalDeposits
-} from "../../redux/action-creator/submitProposal/parameterChangeProposal";
-import { ParamChange } from "../../cosmos/codec/cosmos/params/v1beta1/params";
+    saveParameterChangeProposalDeposits,
+    submitParameterChangeProposal
+} from "../../../redux/action-creator/submitProposal/parameterChangeProposal";
+import { ParamChange } from "../../../cosmos/codec/cosmos/params/v1beta1/params";
 
 const ParameterChangeProposal: React.FC = () => {
     const {
         proposal: { description, title, changes },
-        deposits
+        deposits,
+        ...data
     } = useTypedSelector((state) => state.submitProposal.parameterChangeProposal);
     const dispatch = useDispatch();
     const setTitle = (data: string) => {
@@ -34,8 +31,15 @@ const ParameterChangeProposal: React.FC = () => {
         dispatch(saveParameterChangeProposalDeposits(data));
     };
 
+    const [subspace, setSubspace] = useState("");
+    const [key, setKey] = useState("");
+    const [value, setValue] = useState("");
+
+    // console.log(data);
     return (
         <div>
+            {data.error}
+            {data.broadcastResponse?.rawLog}
             <div>
                 <input
                     value={title}
@@ -49,7 +53,7 @@ const ParameterChangeProposal: React.FC = () => {
                     type={"text"}
                     placeholder={"Description"}
                 />
-                <button onClick={() => dispatch(submitTextProposal())}>Send</button>
+                <button onClick={() => dispatch(submitParameterChangeProposal())}>Send</button>
             </div>
             <DepositForm addDeposit={(d) => setDeposits([...deposits, d])} />
             {deposits.map((d, i) => (
@@ -61,46 +65,28 @@ const ParameterChangeProposal: React.FC = () => {
                     }
                 />
             ))}
+
+            <input
+                value={subspace}
+                onChange={(e) => setSubspace(e.target.value)}
+                type={"text"}
+                placeholder={"Subspace"}
+            />
+            <input
+                value={key}
+                onChange={(e) => setKey(e.target.value)}
+                type={"text"}
+                placeholder={"Key"}
+            />
+            <input
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                type={"text"}
+                placeholder={"Value"}
+            />
+            <button onClick={() => setChanges([...changes, { key, subspace, value }])}>Save</button>
         </div>
     );
 };
 
 export default ParameterChangeProposal;
-
-const paramChanges = {
-    auth: [
-        "MaxMemoCharacters",
-        "TxSigLimit",
-        "TxSizeCostPerByte",
-        "SigVerifyCostED25519",
-        "SigVerifyCostSecp256k1"
-    ],
-    bank: ["sendenabled"],
-    gov: ["depositparams", "votingparams", "tallyparams"],
-    staking: ["UnbondingTime", "MaxValidators", "KeyMaxEntries", "HistoricalEntries", "BondDenom"],
-    slashing: [
-        "SignedBlocksWindow",
-        "MinSignedPerWindow",
-        "DowntimeJailDuration",
-        "SlashFractionDoubleSign",
-        "SlashFractionDowntime"
-    ],
-    distribution: [
-        "communitytax",
-        "secretfoundationtax",
-        "secretfoundationaddress",
-        "baseproposerreward",
-        "bonusproposerreward",
-        "withdrawaddrenabled"
-    ],
-    crisis: ["ConstantFee"],
-    mint: [
-        "MintDenom",
-        "InflationRateChange",
-        "InflationMax",
-        "InflationMin",
-        "GoalBonded",
-        "BlocksPerYear"
-    ],
-    evidence: ["MaxEvidenceAge"]
-};

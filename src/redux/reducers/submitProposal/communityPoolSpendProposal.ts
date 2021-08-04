@@ -5,7 +5,7 @@ import {
 } from "../../../types/submitProposal/communityPoolSpendProposal";
 
 const initialState: CommunityPoolSpendProposalState = {
-    data: {
+    proposal: {
         title: "",
         description: "",
         amount: [],
@@ -19,7 +19,7 @@ export const communityPoolSpendProposalReducer = (
 ): CommunityPoolSpendProposalState => {
     switch (action.type) {
         case CommunityPoolSpendProposalTypes.COMMUNITY_POOL_SPEND_PROPOSAL_SAVE_DATA:
-            return { ...state, data: action.payload };
+            return { ...state, proposal: action.payload };
         default:
             return state;
     }
