@@ -1,25 +1,30 @@
 import React from "react";
-import { IBaseSPMsgProps } from "./index";
 import { useDispatch } from "react-redux";
 import { submitProposal } from "../../redux/action-creator/submitProposal";
+import { TextProposal as TextProposalProc } from "../../cosmos/codec/cosmos/gov/v1beta1/gov";
+import { TBaseSPMsg } from "../../types/submitProposal";
 
-const TextProposal: React.FC<IBaseSPMsgProps> = ({ baseParams }) => {
+const TextProposal: React.FC<TBaseSPMsg> = ({ title, description, deposit }) => {
     const dispatch = useDispatch();
-    const sumbitTextProposal = () => {
+    const submitTextProposal = () => {
         dispatch(
             submitProposal(
                 {
                     typeUrl: "/cosmos.gov.v1beta1.TextProposal",
-                    value: TextProposal.encode({
-                        title: "TEST TextProposals",
-                        description: "test description"
+                    value: TextProposalProc.encode({
+                        title,
+                        description
                     }).finish()
                 },
-                baseParams.deposit
+                deposit
             )
         );
     };
-    return <div>TextProposal</div>;
+    return (
+        <div>
+            <button onClick={submitTextProposal}>Submit</button>
+        </div>
+    );
 };
 
 export default TextProposal;
