@@ -8,7 +8,7 @@ const SubmitProposal: React.FC = () => {
     return (
         <Tabs>
             <TabList>
-                {/*<Tab>TextProposal</Tab>*/}
+                <Tab>TextProposal</Tab>
                 <Tab>ParameterChangeProposal</Tab>
                 <Tab>CommunityPoolSpendProposal</Tab>
             </TabList>

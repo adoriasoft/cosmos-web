@@ -33,11 +33,6 @@ const ParameterChangeProposal: React.FC = () => {
         dispatch(saveParameterChangeProposalDeposits(data));
     };
 
-    const [subspace, setSubspace] = useState("");
-    const [key, setKey] = useState("");
-    const [value, setValue] = useState("");
-
-    // console.log(data);
     return (
         <div>
             {data.error}
@@ -78,8 +73,6 @@ const ParameterChangeProposal: React.FC = () => {
                     }
                 />
             ))}
-
-            <button onClick={() => setChanges([...changes, { key, subspace, value }])}>Save</button>
         </div>
     );
 };
