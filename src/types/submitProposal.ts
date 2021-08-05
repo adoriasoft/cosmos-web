@@ -4,7 +4,8 @@ import { ParameterChangeProposal } from "../cosmos/codec/cosmos/params/v1beta1/p
 import { CommunityPoolSpendProposal } from "@cosmjs/stargate/build/codec/cosmos/distribution/v1beta1/distribution";
 import { TextProposal } from "../cosmos/codec/cosmos/gov/v1beta1/gov";
 
-export type TProposals = TextProposal | ParameterChangeProposal | CommunityPoolSpendProposal;
+// export type TProposals = TextProposal | ParameterChangeProposal | CommunityPoolSpendProposal;
+export type TBaseSPMsg = { title: string; description: string; deposit: Coin[] };
 
 export interface SubmitProposalState {
     // proposal: TProposals;

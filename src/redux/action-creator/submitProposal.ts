@@ -3,7 +3,7 @@ import { RootState } from "../reducers";
 import { chainInfo } from "../../config";
 import { Coin, coins, isBroadcastTxSuccess } from "@cosmjs/stargate";
 import { getWalletAddress } from "../../cosmos/keplr";
-import { SubmitProposalAction, SubmitProposalTypes, TProposals } from "../../types/submitProposal";
+import { SubmitProposalAction, SubmitProposalTypes } from "../../types/submitProposal";
 import { TextProposal } from "../../cosmos/codec/cosmos/gov/v1beta1/gov";
 import { EncodeObject } from "@cosmjs/proto-signing";
 
@@ -21,7 +21,7 @@ import { EncodeObject } from "@cosmjs/proto-signing";
 //     };
 // };
 
-export const submitTextProposal = (content: EncodeObject, initialDeposit: Coin) => {
+export const submitProposal = (content: EncodeObject, deposit: Coin[]) => {
     return async (dispatch: Dispatch<SubmitProposalAction>, getState: () => RootState) => {
         try {
             dispatch({ type: SubmitProposalTypes.SUBMIT_PROPOSAL_CALL });
@@ -35,7 +35,7 @@ export const submitTextProposal = (content: EncodeObject, initialDeposit: Coin) 
             const address = await getWalletAddress(keplr);
             const msg = {
                 content,
-                initialDeposit,
+                initialDeposit: deposit,
                 proposer: address
             };
             const msgAny = {
