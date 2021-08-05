@@ -10,6 +10,8 @@ import {
     submitParameterChangeProposal
 } from "../../../redux/action-creator/submitProposal/parameterChangeProposal";
 import { ParamChange } from "../../../cosmos/codec/cosmos/params/v1beta1/params";
+import ChangeForm from "./ParamChange/ChangeForm";
+import ChangeItem from "./ParamChange/ChangeItem";
 
 const ParameterChangeProposal: React.FC = () => {
     const {
@@ -66,24 +68,17 @@ const ParameterChangeProposal: React.FC = () => {
                 />
             ))}
 
-            <input
-                value={subspace}
-                onChange={(e) => setSubspace(e.target.value)}
-                type={"text"}
-                placeholder={"Subspace"}
-            />
-            <input
-                value={key}
-                onChange={(e) => setKey(e.target.value)}
-                type={"text"}
-                placeholder={"Key"}
-            />
-            <input
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-                type={"text"}
-                placeholder={"Value"}
-            />
+            <ChangeForm addChange={(c) => setChanges([...changes, c])} />
+            {changes.map((c, i) => (
+                <ChangeItem
+                    key={i}
+                    change={c}
+                    deleteChange={() =>
+                        setChanges([...changes.slice(0, i), ...changes.slice(i + 1)])
+                    }
+                />
+            ))}
+
             <button onClick={() => setChanges([...changes, { key, subspace, value }])}>Save</button>
         </div>
     );

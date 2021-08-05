@@ -1,48 +1,61 @@
 import React, { useState } from "react";
 import { ParamChange } from "../../../../cosmos/codec/cosmos/params/v1beta1/params";
 import { coin } from "@cosmjs/stargate";
+import Select from "react-select";
 
 interface IChangeFormProps {
     addChange: (change: ParamChange) => void;
 }
 
-const ChangeForm = () => {
+const ChangeForm: React.FC<IChangeFormProps> = ({ addChange }) => {
     const [subspace, setSubspace] = useState("");
     const [key, setKey] = useState("");
     const [value, setValue] = useState("");
 
+    const subOptions = Object.keys(paramOptions).map((key) => ({ value: key, label: key }));
+    const keyOptions = paramOptions[subspace]
+        ? paramOptions[subspace].map((key) => ({ value: key, label: key }))
+        : [];
+
     return (
-        <h1>ChangeForm</h1>
-        // <div className="admin-page__form">
-        //     <label className="admin-page__form__label" htmlFor="new-admin">
-        //         Add deposit
-        //         <input
-        //             value={amount}
-        //             onChange={({ target }) => setAmount(target.value)}
-        //             className="admin-page__form__address-input"
-        //             placeholder="Amount"
-        //             type="number"
-        //         />
-        //         <input
-        //             value={denom}
-        //             onChange={({ target }) => setDenom(target.value)}
-        //             className="admin-page__form__address-input"
-        //             placeholder="Denom"
-        //             type="text"
-        //         />
-        //     </label>{" "}
-        //     <button
-        //         onClick={() => addDeposit(coin(+amount, denom))}
-        //         className="admin-page__form__save-btn">
-        //         Add
-        //     </button>
-        // </div>
+        <div className="parameter-change__form">
+            <label className="admin-page__form__label" htmlFor="new-admin">
+                Add ParamChange
+            </label>
+            <Select
+                options={subOptions}
+                onChange={(e) => {
+                    setSubspace(e?.value || subspace);
+                    setKey(paramOptions[e?.value || subspace][0]);
+                }}
+                placeholder={"Subspace"}
+            />
+            <Select
+                options={keyOptions}
+                onChange={(e) => setKey(e?.value || key)}
+                defaultValue={keyOptions[0]}
+                value={keyOptions.find((elm) => elm.value === key) || null}
+                placeholder={"Key"}
+            />
+            <input
+                value={value}
+                onChange={({ target }) => setValue(target.value)}
+                className="admin-page__form__address-input"
+                placeholder="Value"
+                type="text"
+            />
+            <button onClick={() => addChange({ key, value, subspace })}>Add</button>
+        </div>
     );
 };
 
 export default ChangeForm;
 
-const paramChanges = {
+type tParamOptions = {
+    [key: string]: string[];
+};
+
+const paramOptions: tParamOptions = {
     auth: [
         "MaxMemoCharacters",
         "TxSigLimit",
