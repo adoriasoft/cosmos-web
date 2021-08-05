@@ -6,7 +6,7 @@ interface IDepositItemProps {
     deleteDeposit: () => void;
 }
 
-const DepositItem: React.FC<IDepositItemProps> = ({ deposit, deleteDeposit }) => {
+const CoinItem: React.FC<IDepositItemProps> = ({ deposit, deleteDeposit }) => {
     return (
         <div className="admin-card">
             {`${deposit.amount}${deposit.denom}`}
@@ -19,4 +19,4 @@ const DepositItem: React.FC<IDepositItemProps> = ({ deposit, deleteDeposit }) =>
     );
 };
 
-export default DepositItem;
+export default CoinItem;

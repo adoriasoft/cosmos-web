@@ -5,8 +5,8 @@ import ParameterChangeProposal from "./ParameterChangeProposal/ParameterChangePr
 import CommunityPoolSpendProposal from "./CommunityPoolSpendProposal";
 import { useTypedSelector } from "../../redux/useTypedSelector";
 import { Coin } from "@cosmjs/stargate";
-import DepositForm from "./InitialDeposit/DepositForm";
-import DepositItem from "./InitialDeposit/DepositItem";
+import CoinsForm from "./Coins/CoinsForm";
+import CoinItem from "./Coins/CoinItem";
 import { TBaseSPMsg } from "../../types/submitProposal";
 
 const SubmitProposal: React.FC = () => {
@@ -57,9 +57,9 @@ const SubmitProposal: React.FC = () => {
                 </TabPanel>
             </Tabs>
 
-            <DepositForm addDeposit={(d) => setDeposit([...deposit, d])} />
+            <CoinsForm title={"Add deposit"} addCoin={(d) => setDeposit([...deposit, d])} />
             {deposit.map((d, i) => (
-                <DepositItem
+                <CoinItem
                     key={i}
                     deposit={d}
                     deleteDeposit={() =>

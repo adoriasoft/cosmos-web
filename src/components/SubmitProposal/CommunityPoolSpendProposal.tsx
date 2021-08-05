@@ -1,90 +1,58 @@
-import React from "react";
-import { useTypedSelector } from "../../redux/useTypedSelector";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
 import { Coin } from "@cosmjs/stargate";
-import DepositForm from "./InitialDeposit/DepositForm";
-import DepositItem from "./InitialDeposit/DepositItem";
-import {
-    saveCommunityPoolSpendProposalData,
-    saveCommunityPoolSpendProposalDeposits,
-    submitCommunityPoolSpendProposal
-} from "../../redux/action-creator/submitProposal/communityPoolSpendProposal";
+import CoinsForm from "./Coins/CoinsForm";
+import CoinItem from "./Coins/CoinItem";
+import { TBaseSPMsg } from "../../types/submitProposal";
+import { submitProposal } from "../../redux/action-creator/submitProposal";
+import { useDispatch } from "react-redux";
+import { CommunityPoolSpendProposal as CPSProposalProc } from "@cosmjs/stargate/build/codec/cosmos/distribution/v1beta1/distribution";
 
-const CommunityPoolSpendProposal: React.FC = () => {
-    const {
-        proposal: { description, title, amount, recipient },
-        deposits,
-        ...data
-    } = useTypedSelector((state) => state.submitProposal.communityPoolSpendProposal);
+const CommunityPoolSpendProposal: React.FC<TBaseSPMsg> = ({ title, description, deposit }) => {
+    const [amount, setAmount] = useState<Coin[]>([]);
+    const [recipient, setRecipient] = useState("");
+
     const dispatch = useDispatch();
-    const setTitle = (data: string) => {
+    const submitCPSProposal = () =>
         dispatch(
-            saveCommunityPoolSpendProposalData({ title: data, description, amount, recipient })
+            submitProposal(
+                {
+                    typeUrl: "/cosmos.distribution.v1beta1.CommunityPoolSpendProposal",
+                    value: CPSProposalProc.encode({
+                        title,
+                        description,
+                        amount,
+                        recipient
+                    }).finish()
+                },
+                deposit
+            )
         );
-    };
-    const setDescription = (data: string) => {
-        dispatch(
-            saveCommunityPoolSpendProposalData({ title, description: data, amount, recipient })
-        );
-    };
-    const setRecipient = (data: string) => {
-        dispatch(
-            saveCommunityPoolSpendProposalData({ title, description, amount, recipient: data })
-        );
-    };
-    const setAmount = (data: Coin[]) => {
-        dispatch(
-            saveCommunityPoolSpendProposalData({ title, description, amount: data, recipient })
-        );
-    };
-    const setDeposits = (data: Coin[]) => {
-        dispatch(saveCommunityPoolSpendProposalDeposits(data));
-    };
-
     return (
         <div>
-            {data.error}
-            {data.broadcastResponse?.rawLog}
             <div>
-                <input
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    type={"text"}
-                    placeholder={"Title"}
-                />
-                <input
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    type={"text"}
-                    placeholder={"Description"}
-                />
                 <input
                     value={recipient}
                     onChange={(e) => setRecipient(e.target.value)}
                     type={"text"}
                     placeholder={"Recipient"}
                 />
-                <button onClick={() => dispatch(submitCommunityPoolSpendProposal())}>Send</button>
             </div>
-            <DepositForm addDeposit={(d) => setDeposits([...deposits, d])} />
-            {deposits.map((d, i) => (
-                <DepositItem
-                    key={i}
-                    deposit={d}
-                    deleteDeposit={() =>
-                        setDeposits([...deposits.slice(0, i), ...deposits.slice(i + 1)])
-                    }
-                />
-            ))}
+            <div>
+                <CoinsForm title={"Add amount"} addCoin={(d) => setAmount([...amount, d])} />
+                {amount.map((a, i) => (
+                    <CoinItem
+                        key={i}
+                        deposit={a}
+                        deleteDeposit={() =>
+                            setAmount([...amount.slice(0, i), ...amount.slice(i + 1)])
+                        }
+                    />
+                ))}
+            </div>
 
-            <DepositForm addDeposit={(d) => setAmount([...amount, d])} />
-            {amount.map((d, i) => (
-                <DepositItem
-                    key={i}
-                    deposit={d}
-                    deleteDeposit={() => setAmount([...amount.slice(0, i), ...amount.slice(i + 1)])}
-                />
-            ))}
+            <div>
+                <button onClick={submitCPSProposal}>Submit</button>
+            </div>
         </div>
     );
 };

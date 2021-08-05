@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { coin, Coin } from "@cosmjs/stargate";
 
-interface IDepositFormProps {
-    addDeposit: (deposit: Coin) => void;
+interface ICoinsFormProps {
+    addCoin: (coin: Coin) => void;
+    title: string;
 }
 
-const DepositForm: React.FC<IDepositFormProps> = ({ addDeposit }) => {
+const CoinsForm: React.FC<ICoinsFormProps> = ({ addCoin, title }) => {
     const [amount, setAmount] = useState("");
     const [denom, setDenom] = useState("");
 
     return (
         <div className="admin-page__form">
             <label className="admin-page__form__label" htmlFor="new-admin">
-                Add deposit
+                {title}
                 <input
                     value={amount}
                     onChange={({ target }) => setAmount(target.value)}
@@ -29,7 +30,7 @@ const DepositForm: React.FC<IDepositFormProps> = ({ addDeposit }) => {
                 />
             </label>{" "}
             <button
-                onClick={() => addDeposit(coin(+amount, denom))}
+                onClick={() => addCoin(coin(+amount, denom))}
                 className="admin-page__form__save-btn">
                 Add
             </button>
@@ -37,4 +38,4 @@ const DepositForm: React.FC<IDepositFormProps> = ({ addDeposit }) => {
     );
 };
 
-export default DepositForm;
+export default CoinsForm;
