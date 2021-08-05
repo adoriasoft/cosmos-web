@@ -73,6 +73,7 @@
     },
     "devDependencies": {
         "@keplr-wallet/types": "^0.9.0-alpha.8",
+        "@types/react-select": "^4.0.17",
         "@types/redux": "^3.6.0",
         "eslint": "^7.31.0",
         "eslint-config-prettier": "^8.3.0",
