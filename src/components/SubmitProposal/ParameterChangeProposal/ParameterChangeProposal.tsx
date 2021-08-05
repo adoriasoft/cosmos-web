@@ -12,7 +12,7 @@ import { submitProposal } from "../../../redux/action-creator/submitProposal";
 const ParameterChangeProposal: React.FC<TBaseSPMsg> = ({ title, description, deposit }) => {
     const [changes, setChanges] = useState<ParamChange[]>([]);
     const dispatch = useDispatch();
-    const submitParameterChangeProposal = () => {
+    const submitParameterChangeProposal = () =>
         dispatch(
             submitProposal(
                 {
@@ -26,8 +26,6 @@ const ParameterChangeProposal: React.FC<TBaseSPMsg> = ({ title, description, dep
                 deposit
             )
         );
-    };
-
     return (
         <div>
             <div>
