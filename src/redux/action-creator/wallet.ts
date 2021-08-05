@@ -5,6 +5,7 @@ import { getKeplr } from "../../cosmos";
 import { defaultRegistryTypes, SigningStargateClient } from "@cosmjs/stargate";
 import { Registry } from "@cosmjs/proto-signing";
 import { MsgSubmitProposal } from "../../cosmos/codec/cosmos/gov/v1beta1/tx";
+import { MsgAddAdmin, MsgDeleteAdmin } from "../../cosmos/codec/cosmos/adminmodule/tx";
 
 export const connectWallet = () => {
     return async (dispatch: Dispatch<WalletAction>) => {
@@ -19,12 +20,18 @@ export const connectWallet = () => {
             await keplr.enable(chainInfo.chainId);
 
             const registry = new Registry();
+
             registry.register("/cosmos.gov.v1beta1.MsgSubmitProposal", MsgSubmitProposal);
+            registry.register("/cosmos.adminmodule.adminmodule.MsgAddAdmin", MsgAddAdmin);
+            registry.register("/cosmos.adminmodule.adminmodule.MsgDeleteAdmin", MsgDeleteAdmin);
+
             defaultRegistryTypes.forEach((v) => {
                 registry.register(v[0], v[1]);
             });
 
             const offlineSigner = keplr.getOfflineSigner(chainInfo.chainId);
+            console.log("offline signer", offlineSigner);
+
             const stargateClient = await SigningStargateClient.connectWithSigner(
                 chainInfo.rpc,
                 offlineSigner,
@@ -32,6 +39,9 @@ export const connectWallet = () => {
                     registry: registry
                 }
             );
+
+            console.log("stargate client", stargateClient);
+            console.log("chain id", await stargateClient.getChainId());
 
             dispatch({
                 type: WalletActionTypes.WALLET_SUCCESS,

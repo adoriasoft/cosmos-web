@@ -7,11 +7,16 @@ import { useTypedSelector } from "../../redux/useTypedSelector";
 const AdminForm = () => {
     const [address, setAddress] = useState("");
     const dispatch = useDispatch();
-    function addAdmin(adminAddress: string) {
-        dispatch(saveAdminAction(adminAddress));
-        setAddress("");
-    }
     const walletConnected = useTypedSelector((state) => state.wallet.isConnected);
+    const { stargateClient } = useTypedSelector((state) => state.wallet);
+
+    function addAdmin(adminAddress: string) {
+        if (stargateClient) {
+            dispatch(saveAdminAction(adminAddress, stargateClient));
+            setAddress("");
+        }
+    }
+
     return (
         <div className="admin-page__form">
             <label className="admin-page__form__label" htmlFor="new-admin">

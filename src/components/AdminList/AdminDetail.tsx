@@ -11,11 +11,12 @@ interface AdminDetailProps {
 const AdminDetail = ({ accountAddress, orderNum }: AdminDetailProps) => {
     const walletConnected = useTypedSelector((state) => state.wallet.isConnected);
     const dispatch = useDispatch();
+    const { stargateClient } = useTypedSelector((state) => state.wallet);
     function deleteAdmin(address: string) {
         const res = window.confirm(`Delete "${address}"?`);
-        if (res) {
+        if (res && stargateClient) {
             console.log("delete", address);
-            dispatch(deleteAdminAction(address));
+            dispatch(deleteAdminAction(address, stargateClient));
         }
     }
 
