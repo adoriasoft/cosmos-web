@@ -1,10 +1,10 @@
 import {
-    TextProposalAction,
-    TextProposalState,
-    TextProposalTypes
-} from "../../../types/submitProposal/textProposal";
+    SubmitProposalAction,
+    SubmitProposalState,
+    SubmitProposalTypes
+} from "../../types/submitProposal";
 
-const initialState: TextProposalState = {
+const initialState: SubmitProposalState = {
     error: null,
     broadcastResponse: null,
     fetching: false,
@@ -15,24 +15,24 @@ const initialState: TextProposalState = {
     }
 };
 
-export const textProposalReducer = (
+export const submitProposalReducer = (
     state = initialState,
-    action: TextProposalAction
-): TextProposalState => {
+    action: SubmitProposalAction
+): SubmitProposalState => {
     switch (action.type) {
-        case TextProposalTypes.TEXT_PROPOSAL_SAVE_DATA:
+        case SubmitProposalTypes.SUBMIT_PROPOSAL_SAVE_DATA:
             return { ...state, proposal: action.payload };
 
-        case TextProposalTypes.TEXT_PROPOSAL_SAVE_DEPOSITS:
+        case SubmitProposalTypes.SUBMIT_PROPOSAL_SAVE_DEPOSITS:
             return { ...state, deposits: action.payload };
 
-        case TextProposalTypes.TEXT_PROPOSAL_CALL:
+        case SubmitProposalTypes.SUBMIT_PROPOSAL_CALL:
             return { ...state, error: null, broadcastResponse: null, fetching: true };
 
-        case TextProposalTypes.TEXT_PROPOSAL_SUCCESS:
+        case SubmitProposalTypes.SUBMIT_PROPOSAL_SUCCESS:
             return { ...state, fetching: false, broadcastResponse: action.payload };
 
-        case TextProposalTypes.TEXT_PROPOSAL_ERROR:
+        case SubmitProposalTypes.SUBMIT_PROPOSAL_ERROR:
             return { ...state, fetching: false, error: action.payload };
 
         default:
