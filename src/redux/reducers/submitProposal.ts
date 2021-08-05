@@ -7,12 +7,12 @@ import {
 const initialState: SubmitProposalState = {
     error: null,
     broadcastResponse: null,
-    fetching: false,
-    deposits: [],
-    proposal: {
-        title: "",
-        description: ""
-    }
+    fetching: false
+    // deposits: [],
+    // proposal: {
+    //     title: "",
+    //     description: ""
+    // }
 };
 
 export const submitProposalReducer = (
@@ -20,11 +20,11 @@ export const submitProposalReducer = (
     action: SubmitProposalAction
 ): SubmitProposalState => {
     switch (action.type) {
-        case SubmitProposalTypes.SUBMIT_PROPOSAL_SAVE_DATA:
-            return { ...state, proposal: action.payload };
-
-        case SubmitProposalTypes.SUBMIT_PROPOSAL_SAVE_DEPOSITS:
-            return { ...state, deposits: action.payload };
+        // case SubmitProposalTypes.SUBMIT_PROPOSAL_SAVE_DATA:
+        //     return { ...state, proposal: action.payload };
+        //
+        // case SubmitProposalTypes.SUBMIT_PROPOSAL_SAVE_DEPOSITS:
+        //     return { ...state, deposits: action.payload };
 
         case SubmitProposalTypes.SUBMIT_PROPOSAL_CALL:
             return { ...state, error: null, broadcastResponse: null, fetching: true };

@@ -4,32 +4,32 @@ import { ParameterChangeProposal } from "../cosmos/codec/cosmos/params/v1beta1/p
 import { CommunityPoolSpendProposal } from "@cosmjs/stargate/build/codec/cosmos/distribution/v1beta1/distribution";
 import { TextProposal } from "../cosmos/codec/cosmos/gov/v1beta1/gov";
 
-type TProposals = TextProposal | ParameterChangeProposal | CommunityPoolSpendProposal;
+export type TProposals = TextProposal | ParameterChangeProposal | CommunityPoolSpendProposal;
 
 export interface SubmitProposalState {
-    proposal: TProposals;
-    deposits: Coin[];
+    // proposal: TProposals;
+    // deposits: Coin[];
     broadcastResponse: BroadcastTxSuccess | null;
     error: string | null;
     fetching: boolean;
 }
 
 export enum SubmitProposalTypes {
-    SUBMIT_PROPOSAL_SAVE_DATA = "SUBMIT_PROPOSAL_SAVE_DATA",
-    SUBMIT_PROPOSAL_SAVE_DEPOSITS = "SUBMIT_PROPOSAL_SAVE_DEPOSITS",
+    // SUBMIT_PROPOSAL_SAVE_DATA = "SUBMIT_PROPOSAL_SAVE_DATA",
+    // SUBMIT_PROPOSAL_SAVE_DEPOSITS = "SUBMIT_PROPOSAL_SAVE_DEPOSITS",
     SUBMIT_PROPOSAL_CALL = "SUBMIT_PROPOSAL_CALL",
     SUBMIT_PROPOSAL_SUCCESS = "SUBMIT_PROPOSAL_SUCCESS",
     SUBMIT_PROPOSAL_ERROR = "SUBMIT_PROPOSAL_ERROR"
 }
 
-interface SubmitProposalSaveDataAction {
-    type: SubmitProposalTypes.SUBMIT_PROPOSAL_SAVE_DATA;
-    payload: TProposals;
-}
-interface SubmitProposalSaveDepositsAction {
-    type: SubmitProposalTypes.SUBMIT_PROPOSAL_SAVE_DEPOSITS;
-    payload: Coin[];
-}
+// interface SubmitProposalSaveDataAction {
+//     type: SubmitProposalTypes.SUBMIT_PROPOSAL_SAVE_DATA;
+//     payload: TProposals;
+// }
+// interface SubmitProposalSaveDepositsAction {
+//     type: SubmitProposalTypes.SUBMIT_PROPOSAL_SAVE_DEPOSITS;
+//     payload: Coin[];
+// }
 interface SubmitProposalCallAction {
     type: SubmitProposalTypes.SUBMIT_PROPOSAL_CALL;
 }
@@ -43,8 +43,6 @@ interface SubmitProposalErrorAction {
 }
 
 export type SubmitProposalAction =
-    | SubmitProposalSaveDataAction
-    | SubmitProposalSaveDepositsAction
-    | SubmitProposalCallAction
-    | SubmitProposalSuccessAction
-    | SubmitProposalErrorAction;
+    // | SubmitProposalSaveDataAction
+    // | SubmitProposalSaveDepositsAction
+    SubmitProposalCallAction | SubmitProposalSuccessAction | SubmitProposalErrorAction;
