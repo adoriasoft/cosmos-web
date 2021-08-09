@@ -27,21 +27,45 @@ const ParameterChangeProposal: React.FC<TBaseSPMsg> = ({ title, description, dep
             )
         );
     return (
-        <div>
+        <div className={"param-change-proposal"}>
             <div>
-                <ChangeForm addChange={(c) => setChanges([...changes, c])} />
-                {changes.map((c, i) => (
-                    <ChangeItem
-                        key={i}
-                        change={c}
-                        deleteChange={() =>
-                            setChanges([...changes.slice(0, i), ...changes.slice(i + 1)])
-                        }
-                    />
-                ))}
+                <label htmlFor="change-form">Add ParamChange</label>
+                <div id={"change-form"}>
+                    <ChangeForm addChange={(c) => setChanges([...changes, c])} />
+                    <div className="change-table-list">
+                        {!!changes.length && (
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Subspace</th>
+                                        <th>Key</th>
+                                        <th>Value</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {changes.map((c, i) => (
+                                        <ChangeItem
+                                            key={i}
+                                            change={c}
+                                            deleteChange={() =>
+                                                setChanges([
+                                                    ...changes.slice(0, i),
+                                                    ...changes.slice(i + 1)
+                                                ])
+                                            }
+                                        />
+                                    ))}
+                                </tbody>
+                            </table>
+                        )}
+                    </div>
+                </div>
             </div>
             <div>
-                <button onClick={submitParameterChangeProposal}>Submit</button>
+                <button className={"btn-submit-proposal"} onClick={submitParameterChangeProposal}>
+                    Submit
+                </button>
             </div>
         </div>
     );

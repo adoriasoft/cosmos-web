@@ -8,12 +8,11 @@ interface IDepositItemProps {
 
 const CoinItem: React.FC<IDepositItemProps> = ({ deposit, deleteDeposit }) => {
     return (
-        <div className="admin-card">
+        <div className="coin-item">
             {`${deposit.amount}${deposit.denom}`}
-            <div className="admin-card__buttons">
-                <button className="admin-card__delete-btn" onClick={deleteDeposit}>
-                    Delete
-                </button>
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+            <div className="btn-delete" onClick={deleteDeposit}>
+                x
             </div>
         </div>
     );

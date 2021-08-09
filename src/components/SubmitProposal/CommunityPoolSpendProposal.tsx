@@ -28,30 +28,45 @@ const CommunityPoolSpendProposal: React.FC<TBaseSPMsg> = ({ title, description, 
             )
         );
     return (
-        <div>
+        <div className={"cps-proposal"}>
             <div>
+                <div>
+                    <label htmlFor={"recipient"}>Recipient</label>
+                </div>
+
                 <input
+                    className={"input-elem"}
+                    id={"recipient"}
                     value={recipient}
                     onChange={(e) => setRecipient(e.target.value)}
                     type={"text"}
-                    placeholder={"Recipient"}
+                    placeholder={"cosmosxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"}
                 />
             </div>
             <div>
-                <CoinsForm title={"Add amount"} addCoin={(d) => setAmount([...amount, d])} />
-                {amount.map((a, i) => (
-                    <CoinItem
-                        key={i}
-                        deposit={a}
-                        deleteDeposit={() =>
-                            setAmount([...amount.slice(0, i), ...amount.slice(i + 1)])
-                        }
-                    />
-                ))}
+                <div>
+                    <label htmlFor={"amount"}>Amount</label>
+                </div>
+                <div id={"amount"}>
+                    <CoinsForm addCoin={(d) => setAmount([...amount, d])} />
+                    <div className={"coin-items"}>
+                        {amount.map((a, i) => (
+                            <CoinItem
+                                key={i}
+                                deposit={a}
+                                deleteDeposit={() =>
+                                    setAmount([...amount.slice(0, i), ...amount.slice(i + 1)])
+                                }
+                            />
+                        ))}
+                    </div>
+                </div>
             </div>
 
             <div>
-                <button onClick={submitCPSProposal}>Submit</button>
+                <button className={"btn-submit-proposal"} onClick={submitCPSProposal}>
+                    Submit
+                </button>
             </div>
         </div>
     );

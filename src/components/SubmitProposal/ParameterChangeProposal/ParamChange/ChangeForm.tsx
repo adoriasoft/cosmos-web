@@ -18,33 +18,46 @@ const ChangeForm: React.FC<IChangeFormProps> = ({ addChange }) => {
         : [];
 
     return (
-        <div className="parameter-change__form">
-            <label className="admin-page__form__label" htmlFor="new-admin">
-                Add ParamChange
-            </label>
-            <Select
-                options={subOptions}
-                onChange={(e) => {
-                    setSubspace(e?.value || subspace);
-                    setKey(paramOptions[e?.value || subspace][0]);
-                }}
-                placeholder={"Subspace"}
-            />
-            <Select
-                options={keyOptions}
-                onChange={(e) => setKey(e?.value || key)}
-                defaultValue={keyOptions[0]}
-                value={keyOptions.find((elm) => elm.value === key) || null}
-                placeholder={"Key"}
-            />
-            <input
-                value={value}
-                onChange={({ target }) => setValue(target.value)}
-                className="admin-page__form__address-input"
-                placeholder="Value"
-                type="text"
-            />
-            <button onClick={() => addChange({ key, value, subspace })}>Add</button>
+        <div className="parameter-change-form">
+            <div className={"input-params"}>
+                <div className={"input-param-elem"}>
+                    <Select
+                        menuPlacement={"top"}
+                        options={subOptions}
+                        onChange={(e) => {
+                            setSubspace(e?.value || subspace);
+                            setKey(paramOptions[e?.value || subspace][0]);
+                        }}
+                        placeholder={"Subspace"}
+                    />
+                </div>
+
+                <div className={"input-param-elem"}>
+                    <Select
+                        menuPlacement={"top"}
+                        options={keyOptions}
+                        onChange={(e) => setKey(e?.value || key)}
+                        defaultValue={keyOptions[0]}
+                        value={keyOptions.find((elm) => elm.value === key) || null}
+                        placeholder={"Key"}
+                    />
+                </div>
+
+                <div className={"input-param-elem"}>
+                    <input
+                        value={value}
+                        onChange={({ target }) => setValue(target.value)}
+                        className="value-input"
+                        placeholder="Value"
+                        type="text"
+                    />
+                </div>
+                <button
+                    className={"btn-add-param"}
+                    onClick={() => addChange({ key, value, subspace })}>
+                    Add
+                </button>
+            </div>
         </div>
     );
 };

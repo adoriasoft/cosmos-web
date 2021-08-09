@@ -22,7 +22,9 @@ const TextProposal: React.FC<TBaseSPMsg> = ({ title, description, deposit }) => 
     };
     return (
         <div>
-            <button onClick={submitTextProposal}>Submit</button>
+            <button className={"btn-submit-proposal"} onClick={submitTextProposal}>
+                Submit
+            </button>
         </div>
     );
 };
