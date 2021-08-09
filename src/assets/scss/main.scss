@@ -1,6 +1,5 @@
-@import 'base/colors';
-@import 'base/fonts';
-
+@import "base/colors";
+@import "base/fonts";
 
 @import "vendors/proposals";
 @import "vendors/admin-page";
@@ -9,3 +8,4 @@
 @import "vendors/main";
 @import "vendors/admin-card";
 @import "vendors/react-tabs";
+@import "vendors/review-changes-page.scss";

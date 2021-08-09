@@ -30,7 +30,6 @@ export const connectWallet = () => {
             });
 
             const offlineSigner = keplr.getOfflineSigner(chainInfo.chainId);
-            console.log("offline signer", offlineSigner);
 
             const stargateClient = await SigningStargateClient.connectWithSigner(
                 chainInfo.rpc,
@@ -39,9 +38,6 @@ export const connectWallet = () => {
                     registry: registry
                 }
             );
-
-            console.log("stargate client", stargateClient);
-            console.log("chain id", await stargateClient.getChainId());
 
             dispatch({
                 type: WalletActionTypes.WALLET_SUCCESS,
