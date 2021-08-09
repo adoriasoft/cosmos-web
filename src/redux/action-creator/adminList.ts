@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
+import { lcdClient, getKeplr } from "../../cosmos";
 import { Bech32 } from "@cosmjs/encoding";
-import { cosmosClient, getKeplr } from "../../cosmos";
 import { getWalletAddress } from "../../cosmos/keplr";
 import {
     AdminActions,
@@ -36,7 +36,7 @@ export const fetchAdminList = () => {
             dispatch({ type: AdminListActionTypes.SET_LOADING, payload: { loading: true } });
             // cosmosclient test
             // TODO: replace with fetch admins
-            const resp = await cosmosClient.get("/node_info");
+            const resp = await lcdClient.get("/node_info");
             console.log("node resp", resp);
 
             // TODO: replace mock data with fetch from cosmos node

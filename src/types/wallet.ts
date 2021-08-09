@@ -1,8 +1,10 @@
 import { Keplr } from "@keplr-wallet/types";
+import { SigningStargateClient } from "@cosmjs/stargate";
 
 export interface WalletState {
     keplr: Keplr | null;
     isConnected: boolean;
+    stargateClient: SigningStargateClient | null;
     error: string | null;
 }
 
@@ -23,7 +25,7 @@ interface WalletDisconnectAction {
 
 interface WalletSuccessAction {
     type: WalletActionTypes.WALLET_SUCCESS;
-    payload: Keplr;
+    payload: { keplr: Keplr; stargateClient: SigningStargateClient };
 }
 
 interface WalletErrorAction {

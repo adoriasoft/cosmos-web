@@ -1,19 +1,16 @@
 import { ChainInfo } from "@keplr-wallet/types";
 import { Bech32Address } from "@keplr-wallet/cosmos";
 
-const restApi = "https://lcd-cosmoshub.keplr.app";
-
+//testnet
 const chainInfo: ChainInfo = {
-    rpc: "https://rpc-cosmoshub.keplr.app",
-    rest: "https://lcd-cosmoshub.keplr.app",
-    chainId: "cosmoshub-4",
-    chainName: "Cosmos Hub",
+    rpc: "http://localhost:26657",
+    rest: "http://localhost:1317",
+    chainId: "testchain",
+    chainName: "TESTNET",
     stakeCurrency: {
-        coinDenom: "ATOM",
-        coinMinimalDenom: "uatom",
-        coinDecimals: 6,
-        coinGeckoId: "cosmos",
-        coinImageUrl: window.location.origin + "/public/assets/tokens/cosmos.svg"
+        coinDenom: "STAKE",
+        coinMinimalDenom: "stake",
+        coinDecimals: 6
     },
     bip44: {
         coinType: 118
@@ -21,24 +18,58 @@ const chainInfo: ChainInfo = {
     bech32Config: Bech32Address.defaultBech32Config("cosmos"),
     currencies: [
         {
-            coinDenom: "ATOM",
-            coinMinimalDenom: "uatom",
-            coinDecimals: 6,
-            coinGeckoId: "cosmos",
-            coinImageUrl: window.location.origin + "/public/assets/tokens/cosmos.svg"
+            coinDenom: "STAKE",
+            coinMinimalDenom: "stake",
+            coinDecimals: 6
         }
     ],
     feeCurrencies: [
         {
-            coinDenom: "ATOM",
-            coinMinimalDenom: "uatom",
-            coinDecimals: 6,
-            coinGeckoId: "cosmos",
-            coinImageUrl: window.location.origin + "/public/assets/tokens/cosmos.svg"
+            coinDenom: "STAKE",
+            coinMinimalDenom: "stake",
+            coinDecimals: 6
         }
     ],
-    coinType: 118,
     features: ["stargate", "ibc-transfer"]
 };
 
-export { restApi, chainInfo };
+// mainnet
+// const chainInfo: ChainInfo = {
+//     rpc: "https://rpc-cosmoshub.keplr.app",
+//     rest: "https://lcd-cosmoshub.keplr.app",
+//     chainId: "cosmoshub-4",
+//     chainName: "Cosmos Hub",
+//     stakeCurrency: {
+//         coinDenom: "ATOM",
+//         coinMinimalDenom: "uatom",
+//         coinDecimals: 6,
+//         coinGeckoId: "cosmos",
+//         coinImageUrl: window.location.origin + "/public/assets/tokens/cosmos.svg"
+//     },
+//     bip44: {
+//         coinType: 118
+//     },
+//     bech32Config: Bech32Address.defaultBech32Config("cosmos"),
+//     currencies: [
+//         {
+//             coinDenom: "ATOM",
+//             coinMinimalDenom: "uatom",
+//             coinDecimals: 6,
+//             coinGeckoId: "cosmos",
+//             coinImageUrl: window.location.origin + "/public/assets/tokens/cosmos.svg"
+//         }
+//     ],
+//     feeCurrencies: [
+//         {
+//             coinDenom: "ATOM",
+//             coinMinimalDenom: "uatom",
+//             coinDecimals: 6,
+//             coinGeckoId: "cosmos",
+//             coinImageUrl: window.location.origin + "/public/assets/tokens/cosmos.svg"
+//         }
+//     ],
+//     coinType: 118,
+//     features: ["stargate", "ibc-transfer"]
+// };
+
+export { chainInfo };

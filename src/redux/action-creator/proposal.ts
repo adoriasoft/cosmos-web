@@ -1,12 +1,12 @@
 import { Dispatch } from "redux";
 import { ProposalAction, ProposalActionTypes, Proposal } from "../../types/proposal";
-import { cosmosClient } from "../../cosmos";
+import { lcdClient } from "../../cosmos";
 
 export const fetchProposals = () => {
     return async (dispatch: Dispatch<ProposalAction>) => {
         try {
             dispatch({ type: ProposalActionTypes.PROPOSAL_CALL });
-            const proposals = (await cosmosClient.gov.proposals()).result.slice().reverse();
+            const proposals = (await lcdClient.gov.proposals()).result.slice().reverse();
             dispatch({
                 type: ProposalActionTypes.PROPOSAL_SUCCESS,
                 payload: proposals as Proposal[]
@@ -22,12 +22,12 @@ export const fetchProposalDetail = (id: string) => {
         try {
             dispatch({ type: ProposalActionTypes.PROPOSAL_DETAIL_CALL });
 
-            const proposer = await cosmosClient.gov
+            const proposer = await lcdClient.gov
                 .proposer(id)
                 .then((data) => data.result.proposer)
                 .catch((e) => null);
 
-            const deposits = await cosmosClient.gov
+            const deposits = await lcdClient.gov
                 .deposits(id)
                 .then((data) => data.result)
                 .catch((e) => null);
