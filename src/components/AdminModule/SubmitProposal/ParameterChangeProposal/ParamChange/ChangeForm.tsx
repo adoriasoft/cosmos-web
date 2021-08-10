@@ -19,8 +19,8 @@ const ChangeForm: React.FC<IChangeFormProps> = ({ addChange }) => {
     const modules = useTypedSelector((state) => state.reviewChanges.modules);
 
     const subOptions = Object.keys(modules).map((key) => ({ value: key, label: key }));
-    const keyOptions = modules[subspace]
-        ? Object.keys(modules[subspace]).map((key) => ({ value: key, label: key }))
+    const keyOptions = subspaceKeys[subspace]
+        ? subspaceKeys[subspace].map((key) => ({ value: key, label: key }))
         : [];
 
     const dispatch = useDispatch();
@@ -39,7 +39,7 @@ const ChangeForm: React.FC<IChangeFormProps> = ({ addChange }) => {
                                 ? (e.value as KeysOfModules)
                                 : subspace;
                             setSubspace(value);
-                            if (modules[value]) setKey(Object.keys(modules[value])[0]);
+                            if (subspaceKeys[value]) setKey(subspaceKeys[value][0]);
                         }}
                         placeholder={"Subspace"}
                     />
@@ -67,12 +67,54 @@ const ChangeForm: React.FC<IChangeFormProps> = ({ addChange }) => {
                 </div>
                 <button
                     className={"btn-add-param"}
-                    onClick={() => addChange({ key: "UnbondingTIme", value, subspace })}>
+                    onClick={() => addChange({ key, value, subspace })}>
                     Add
                 </button>
             </div>
         </div>
     );
+};
+
+type tParamOptions = {
+    [key: string]: string[];
+};
+
+const subspaceKeys: tParamOptions = {
+    auth: [
+        "MaxMemoCharacters",
+        "TxSigLimit",
+        "TxSizeCostPerByte",
+        "SigVerifyCostED25519",
+        "SigVerifyCostSecp256k1"
+    ],
+    bank: ["sendenabled"],
+    gov: ["depositparams", "votingparams", "tallyparams"],
+    staking: ["UnbondingTime", "MaxValidators", "KeyMaxEntries", "HistoricalEntries", "BondDenom"],
+    slashing: [
+        "SignedBlocksWindow",
+        "MinSignedPerWindow",
+        "DowntimeJailDuration",
+        "SlashFractionDoubleSign",
+        "SlashFractionDowntime"
+    ],
+    distribution: [
+        "communitytax",
+        "secretfoundationtax",
+        "secretfoundationaddress",
+        "baseproposerreward",
+        "bonusproposerreward",
+        "withdrawaddrenabled"
+    ],
+    crisis: ["ConstantFee"],
+    mint: [
+        "MintDenom",
+        "InflationRateChange",
+        "InflationMax",
+        "InflationMin",
+        "GoalBonded",
+        "BlocksPerYear"
+    ],
+    evidence: ["MaxEvidenceAge"]
 };
 
 export default ChangeForm;
