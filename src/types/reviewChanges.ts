@@ -1,11 +1,13 @@
 export interface ReviewChangesState {
-    bank: BankParams;
-    distribution: DistributionParams;
-    gov: GovParams;
-    slashing: SlashingParams;
-    staking: StakingParams;
     loading: boolean;
     error: string | null;
+    modules: {
+        bank: BankParams;
+        distribution: DistributionParams;
+        gov: GovParams;
+        slashing: SlashingParams;
+        staking: StakingParams;
+    };
 }
 
 export enum ReviewChangesActionTypes {

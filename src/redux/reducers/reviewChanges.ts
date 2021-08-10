@@ -6,13 +6,15 @@ import {
 } from "../../types/reviewChanges";
 
 const initialState: ReviewChangesState = {
-    bank: null!,
-    distribution: null!,
-    gov: null!,
-    slashing: null!,
-    staking: null!,
     error: null,
-    loading: false
+    loading: false,
+    modules: {
+        bank: null!,
+        distribution: null!,
+        gov: null!,
+        slashing: null!,
+        staking: null!
+    }
 };
 
 export const reviewChangesReducer = (
@@ -21,7 +23,7 @@ export const reviewChangesReducer = (
 ): ReviewChangesState => {
     switch (action.type) {
         case ReviewChangesActionTypes.SET_PARAMS:
-            return { ...state, ...action.payload };
+            return { ...state, modules: { ...action.payload } };
         case ReviewChangesActionTypes.SET_LOADING:
             return { ...state, loading: action.payload.loading };
         case ReviewChangesActionTypes.ERROR:

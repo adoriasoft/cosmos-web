@@ -9,14 +9,15 @@ interface AdminDetailProps {
 }
 
 const AdminDetail = ({ accountAddress, orderNum }: AdminDetailProps) => {
-    const walletConnected = useTypedSelector((state) => state.wallet.isConnected);
+    const { isConnected, keplr } = useTypedSelector((state) => state.wallet);
     const dispatch = useDispatch();
     const { stargateClient } = useTypedSelector((state) => state.wallet);
+
     function deleteAdmin(address: string) {
         const res = window.confirm(`Delete "${address}"?`);
-        if (res && stargateClient) {
+        if (res && stargateClient && keplr) {
             console.log("delete", address);
-            dispatch(deleteAdminAction(address, stargateClient));
+            dispatch(deleteAdminAction(address, stargateClient, keplr));
         }
     }
 
@@ -25,7 +26,7 @@ const AdminDetail = ({ accountAddress, orderNum }: AdminDetailProps) => {
             {orderNum}. {accountAddress}
             <div className="admin-card__buttons">
                 <button
-                    disabled={!walletConnected}
+                    disabled={!isConnected}
                     className="admin-card__delete-btn"
                     onClick={() => deleteAdmin(accountAddress)}>
                     Delete

@@ -7,9 +7,10 @@ import ModuleSection from "./ModuleSection";
 
 const ReviewState = () => {
     const dispatch = useDispatch();
-    const { bank, distribution, gov, slashing, staking, error, loading } = useTypedSelector(
-        (state) => state.reviewChanges
+    const { bank, distribution, gov, slashing, staking } = useTypedSelector(
+        (state) => state.reviewChanges.modules
     );
+    const { error, loading } = useTypedSelector((state) => state.reviewChanges);
     useEffect(() => {
         dispatch(fetchParamsList());
     }, []);
