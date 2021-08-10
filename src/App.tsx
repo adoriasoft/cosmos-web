@@ -42,16 +42,6 @@ const App: React.FC = () => {
                         <AdminModule />
                     </RouteWrapper>
                 </Route>
-                <Route exact path={routes.adminList}>
-                    <RouteWrapper>
-                        <AdminList />
-                    </RouteWrapper>
-                </Route>
-                <Route exact path={routes.submitProposal}>
-                    <RouteWrapper>
-                        <SubmitProposal />
-                    </RouteWrapper>
-                </Route>
                 <Route>
                     <RouteWrapper>
                         <NotFoundPage />

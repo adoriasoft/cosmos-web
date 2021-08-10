@@ -67,7 +67,7 @@ const ChangeForm: React.FC<IChangeFormProps> = ({ addChange }) => {
                 </div>
                 <button
                     className={"btn-add-param"}
-                    onClick={() => addChange({ key, value, subspace })}>
+                    onClick={() => addChange({ key: "UnbondingTIme", value, subspace })}>
                     Add
                 </button>
             </div>
