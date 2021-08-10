@@ -9,8 +9,8 @@ import AdminModule from "./components/AdminModule/AdminModule";
 import NotFoundPage from "./components/NotFound";
 import "./assets/scss/main.scss";
 import ProposalDetail from "./components/Proposals/ProposalDetail";
-import AdminList from "./components/AdminList/AdminList";
-import SubmitProposal from "./components/SubmitProposal";
+import AdminList from "./components/AdminModule/AdminList/AdminList";
+import SubmitProposal from "./components/AdminModule/SubmitProposal";
 
 const App: React.FC = () => {
     return (

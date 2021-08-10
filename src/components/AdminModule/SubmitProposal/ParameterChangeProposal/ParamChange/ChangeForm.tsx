@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { ParamChange } from "../../../../cosmos/codec/cosmos/params/v1beta1/params";
+import { ParamChange } from "../../../../../cosmos/codec/cosmos/params/v1beta1/params";
 import Select from "react-select";
-import { useTypedSelector } from "../../../../redux/useTypedSelector";
-import { IModules } from "../../../../types/reviewChanges";
+import { useTypedSelector } from "../../../../../redux/useTypedSelector";
+import { IModules } from "../../../../../types/reviewChanges";
 import { useDispatch } from "react-redux";
-import { fetchParamsList } from "../../../../redux/action-creator/reviewChanges";
+import { fetchParamsList } from "../../../../../redux/action-creator/reviewChanges";
 
 interface IChangeFormProps {
     addChange: (change: ParamChange) => void;

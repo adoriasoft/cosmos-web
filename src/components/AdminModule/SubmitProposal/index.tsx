@@ -3,12 +3,12 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import TextProposal from "./TextProposal";
 import ParameterChangeProposal from "./ParameterChangeProposal/ParameterChangeProposal";
 import CommunityPoolSpendProposal from "./CommunityPoolSpendProposal";
-import { useTypedSelector } from "../../redux/useTypedSelector";
+import { useTypedSelector } from "../../../redux/useTypedSelector";
 import { Coin } from "@cosmjs/stargate";
 import CoinsForm from "./Coins/CoinsForm";
 import CoinItem from "./Coins/CoinItem";
-import { TBaseSPMsg } from "../../types/submitProposal";
-import Spinner from "../Loader/Spinner";
+import { TBaseSPMsg } from "../../../types/submitProposal";
+import Spinner from "../../Loader/Spinner";
 
 const SubmitProposal: React.FC = () => {
     const { broadcastResponse, error, fetching } = useTypedSelector((s) => s.submitProposal);
