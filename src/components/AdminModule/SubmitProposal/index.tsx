@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import TextProposal from "./TextProposal";
 import ParameterChangeProposal from "./ParameterChangeProposal/ParameterChangeProposal";
@@ -9,6 +9,8 @@ import CoinsForm from "./Coins/CoinsForm";
 import CoinItem from "./Coins/CoinItem";
 import { TBaseSPMsg } from "../../../types/submitProposal";
 import Spinner from "../../Loader/Spinner";
+import { useDispatch } from "react-redux";
+import { submitProposalReset } from "../../../redux/action-creator/submitProposal";
 
 const SubmitProposal: React.FC = () => {
     const { broadcastResponse, error, fetching } = useTypedSelector((s) => s.submitProposal);
@@ -18,6 +20,13 @@ const SubmitProposal: React.FC = () => {
     const [deposit, setDeposit] = useState<Coin[]>([]);
 
     const params: TBaseSPMsg = { title, description, deposit };
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        return () => {
+            dispatch(submitProposalReset());
+        };
+    }, []);
     return (
         <div className="submit-proposal">
             <h4 className="title">

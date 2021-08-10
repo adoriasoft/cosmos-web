@@ -30,7 +30,7 @@ export const submitProposal = (content: EncodeObject, deposit: Coin[]) => {
             } = getState();
 
             if (!isConnected || !stargateClient || !keplr) {
-                return dispatch(errorSubmitProposalData("Wallet is not connected"));
+                return dispatch(setSubmitProposalError("Wallet is not connected"));
             }
             const address = await getWalletAddress(keplr);
             const msg = {
@@ -55,17 +55,23 @@ export const submitProposal = (content: EncodeObject, deposit: Coin[]) => {
                     payload: broadcastRes
                 });
             } else {
-                dispatch(errorSubmitProposalData(broadcastRes.rawLog || "error"));
+                dispatch(setSubmitProposalError(broadcastRes.rawLog || "error"));
             }
         } catch (e) {
-            dispatch(errorSubmitProposalData(e.message || "error"));
+            dispatch(setSubmitProposalError(e.message || "error"));
         }
     };
 };
 
-const errorSubmitProposalData = (error: string): SubmitProposalAction => {
+const setSubmitProposalError = (error: string): SubmitProposalAction => {
     return {
         type: SubmitProposalTypes.SUBMIT_PROPOSAL_ERROR,
         payload: error
+    };
+};
+
+export const submitProposalReset = (): SubmitProposalAction => {
+    return {
+        type: SubmitProposalTypes.SUBMIT_PROPOSAL_RESET
     };
 };

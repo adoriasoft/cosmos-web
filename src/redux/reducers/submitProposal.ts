@@ -35,6 +35,9 @@ export const submitProposalReducer = (
         case SubmitProposalTypes.SUBMIT_PROPOSAL_ERROR:
             return { ...state, fetching: false, error: action.payload };
 
+        case SubmitProposalTypes.SUBMIT_PROPOSAL_RESET:
+            return { ...state, error: null, broadcastResponse: null, fetching: false };
+
         default:
             return state;
     }

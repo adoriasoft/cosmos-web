@@ -20,7 +20,8 @@ export enum SubmitProposalTypes {
     // SUBMIT_PROPOSAL_SAVE_DEPOSITS = "SUBMIT_PROPOSAL_SAVE_DEPOSITS",
     SUBMIT_PROPOSAL_CALL = "SUBMIT_PROPOSAL_CALL",
     SUBMIT_PROPOSAL_SUCCESS = "SUBMIT_PROPOSAL_SUCCESS",
-    SUBMIT_PROPOSAL_ERROR = "SUBMIT_PROPOSAL_ERROR"
+    SUBMIT_PROPOSAL_ERROR = "SUBMIT_PROPOSAL_ERROR",
+    SUBMIT_PROPOSAL_RESET = "SUBMIT_PROPOSAL_RESET"
 }
 
 // interface SubmitProposalSaveDataAction {
@@ -42,8 +43,14 @@ interface SubmitProposalErrorAction {
     type: SubmitProposalTypes.SUBMIT_PROPOSAL_ERROR;
     payload: string;
 }
+interface SubmitProposalResetAction {
+    type: SubmitProposalTypes.SUBMIT_PROPOSAL_RESET;
+}
 
 export type SubmitProposalAction =
     // | SubmitProposalSaveDataAction
     // | SubmitProposalSaveDepositsAction
-    SubmitProposalCallAction | SubmitProposalSuccessAction | SubmitProposalErrorAction;
+    | SubmitProposalCallAction
+    | SubmitProposalSuccessAction
+    | SubmitProposalErrorAction
+    | SubmitProposalResetAction;
