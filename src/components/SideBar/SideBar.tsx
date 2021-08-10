@@ -30,16 +30,6 @@ const SideBar: React.FC = () => {
                         Admin Module
                     </NavLink>
                 </li>
-                <li className="sidebar-item">
-                    <NavLink to={routes.adminList} activeStyle={active}>
-                        Admin List
-                    </NavLink>
-                </li>
-                <li className="sidebar-item">
-                    <NavLink to={routes.submitProposal} activeStyle={active}>
-                        Submit Proposal
-                    </NavLink>
-                </li>
             </ul>
             <SidebarBottom />
         </div>

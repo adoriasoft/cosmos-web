@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { deleteAdminAction } from "../../redux/action-creator/adminList";
-import { useTypedSelector } from "../../redux/useTypedSelector";
+import { deleteAdminAction } from "../../../redux/action-creator/adminList";
+import { useTypedSelector } from "../../../redux/useTypedSelector";
 
 interface AdminDetailProps {
     accountAddress: string;

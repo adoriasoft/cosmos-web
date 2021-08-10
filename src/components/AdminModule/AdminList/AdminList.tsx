@@ -1,9 +1,9 @@
 import React from "react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { fetchAdminList } from "../../redux/action-creator/adminList";
-import { useTypedSelector } from "../../redux/useTypedSelector";
-import Spinner from "../Loader/Spinner";
+import { fetchAdminList } from "../../../redux/action-creator/adminList";
+import { useTypedSelector } from "../../../redux/useTypedSelector";
+import Spinner from "../../Loader/Spinner";
 import AdminDetail from "./AdminDetail";
 import AdminForm from "./AdminForm";
 

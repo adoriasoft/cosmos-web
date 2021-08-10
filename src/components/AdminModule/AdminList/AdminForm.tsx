@@ -1,8 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { saveAdminAction } from "../../redux/action-creator/adminList";
-import { useTypedSelector } from "../../redux/useTypedSelector";
+import { saveAdminAction } from "../../../redux/action-creator/adminList";
+import { useTypedSelector } from "../../../redux/useTypedSelector";
 
 const AdminForm = () => {
     const [address, setAddress] = useState("");

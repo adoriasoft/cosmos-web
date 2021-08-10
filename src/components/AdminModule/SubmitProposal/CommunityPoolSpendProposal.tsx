@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Coin } from "@cosmjs/stargate";
 import CoinsForm from "./Coins/CoinsForm";
 import CoinItem from "./Coins/CoinItem";
-import { TBaseSPMsg } from "../../types/submitProposal";
-import { submitProposal } from "../../redux/action-creator/submitProposal";
+import { TBaseSPMsg } from "../../../types/submitProposal";
+import { submitProposal } from "../../../redux/action-creator/submitProposal";
 import { useDispatch } from "react-redux";
 import { CommunityPoolSpendProposal as CPSProposalProc } from "@cosmjs/stargate/build/codec/cosmos/distribution/v1beta1/distribution";
 

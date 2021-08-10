@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ParamChange } from "../../../../cosmos/codec/cosmos/params/v1beta1/params";
+import { ParamChange } from "../../../../../cosmos/codec/cosmos/params/v1beta1/params";
 
 interface IChangeItem {
     change: ParamChange;
