@@ -7,11 +7,16 @@ import { useTypedSelector } from "../../redux/useTypedSelector";
 const AdminForm = () => {
     const [address, setAddress] = useState("");
     const dispatch = useDispatch();
+    const { isConnected, keplr } = useTypedSelector((state) => state.wallet);
+    const { stargateClient } = useTypedSelector((state) => state.wallet);
+
     function addAdmin(adminAddress: string) {
-        dispatch(saveAdminAction(adminAddress));
-        setAddress("");
+        if (stargateClient && isConnected && keplr) {
+            dispatch(saveAdminAction(adminAddress, stargateClient, keplr));
+            setAddress("");
+        }
     }
-    const walletConnected = useTypedSelector((state) => state.wallet.isConnected);
+
     return (
         <div className="admin-page__form">
             <label className="admin-page__form__label" htmlFor="new-admin">
@@ -20,7 +25,7 @@ const AdminForm = () => {
                     value={address}
                     onChange={({ target }) => setAddress(target.value)}
                     className="admin-page__form__address-input"
-                    disabled={!walletConnected}
+                    disabled={!isConnected}
                     placeholder="Address"
                     type="text"
                     name="new-admin"
@@ -30,7 +35,7 @@ const AdminForm = () => {
             <button
                 onClick={() => addAdmin(address)}
                 className="admin-page__form__save-btn"
-                disabled={!walletConnected}>
+                disabled={!isConnected}>
                 Save
             </button>
         </div>

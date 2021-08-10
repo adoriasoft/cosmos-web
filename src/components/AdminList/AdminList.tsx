@@ -10,17 +10,19 @@ import AdminForm from "./AdminForm";
 const AdminList = () => {
     const dispatch = useDispatch();
     const { admins, error, loading } = useTypedSelector((state) => state.admin);
+
     useEffect(() => {
         dispatch(fetchAdminList());
     }, []);
+
     return (
         <div className="admin-page">
             <h4 className="title">Admin List {loading && <Spinner />}</h4>
             <AdminForm />
             {error}
             <div className="admin-page__list">
-                {admins.map((adm, i) => (
-                    <AdminDetail accountAddress={adm} orderNum={i + 1} />
+                {admins?.map((adm, i) => (
+                    <AdminDetail key={i} accountAddress={adm} orderNum={i + 1} />
                 ))}
             </div>
         </div>

@@ -8,12 +8,11 @@ import {
     ClearErrorAction,
     ErrorAction
 } from "../../types/adminList";
-
-export let MOCK_ADMINS = [
-    "cosmos106ljn6kasd12312x0w4jnend97fdm123asfg52",
-    "cosmosasd123123gsds124124wegfeg345342fsdgh345",
-    "cosmosyy6ljdfgd5464564jfhfs73hd97fdm50yec59vq"
-];
+import { isBroadcastTxSuccess, SigningStargateClient } from "@cosmjs/stargate";
+import { chainInfo } from "../../config";
+import { coins } from "@cosmjs/launchpad";
+import { Registry } from "@cosmjs/proto-signing";
+import { Keplr } from "@keplr-wallet/types";
 
 export const sendErrorNotification = (
     errMessage: string,
@@ -34,14 +33,16 @@ export const fetchAdminList = () => {
     return async (dispatch: Dispatch<AdminActions>): Promise<void> => {
         try {
             dispatch({ type: AdminListActionTypes.SET_LOADING, payload: { loading: true } });
-            // cosmosclient test
-            // TODO: replace with fetch admins
-            const resp = await lcdClient.get("/node_info");
-            console.log("node resp", resp);
 
-            // TODO: replace mock data with fetch from cosmos node
-            const admins = MOCK_ADMINS;
-            dispatch({ type: AdminListActionTypes.SET_LIST, payload: { admins } });
+            const adminsResp: { admins: string[] } = await lcdClient.get(
+                "/cosmos/adminmodule/adminmodule/admins"
+            );
+            console.log("fetched admins", adminsResp.admins);
+
+            dispatch({
+                type: AdminListActionTypes.SET_LIST,
+                payload: { admins: adminsResp.admins }
+            });
 
             dispatch({ type: AdminListActionTypes.SET_LOADING, payload: { loading: false } });
         } catch (error) {
@@ -51,63 +52,110 @@ export const fetchAdminList = () => {
     };
 };
 
-export const deleteAdminAction = (adminAddress: string) => {
+export const deleteAdminAction = (
+    adminAddress: string,
+    stargateClient: SigningStargateClient,
+    kepler: Keplr
+) => {
     return async (dispatch: Dispatch<AdminActions>): Promise<void> => {
         try {
-            const kepler = await getKeplr();
-            if (kepler) {
-                const sender = await getWalletAddress(kepler);
-                const msgDeleteAdminRequest = {
-                    admin: adminAddress,
-                    requester: sender
-                };
-                console.log("sending", msgDeleteAdminRequest);
-                // TODO: add deletion request + fetch new admins
-                const admins = MOCK_ADMINS.filter((adm) => adm !== adminAddress);
-                MOCK_ADMINS = admins;
-                dispatch({ type: AdminListActionTypes.SET_LIST, payload: { admins } });
+            const sender = await getWalletAddress(kepler);
+
+            const msgDeleteAdminRequest = {
+                admin: adminAddress,
+                creator: sender
+            };
+            const msgAny = {
+                typeUrl: "/cosmos.adminmodule.adminmodule.MsgDeleteAdmin",
+                value: msgDeleteAdminRequest
+            };
+
+            const fee = {
+                amount: coins(0, chainInfo.stakeCurrency.coinMinimalDenom),
+                gas: "2000000"
+            };
+
+            console.log("sending", msgDeleteAdminRequest);
+            dispatch({ type: AdminListActionTypes.SET_LOADING, payload: { loading: true } });
+            const broadcastRes = await stargateClient.signAndBroadcast(sender, [msgAny], fee);
+
+            if (isBroadcastTxSuccess(broadcastRes)) {
+                const adminsResp: { admins: string[] } = await lcdClient.get(
+                    "/cosmos/adminmodule/adminmodule/admins"
+                );
+                dispatch({
+                    type: AdminListActionTypes.SET_LIST,
+                    payload: { admins: adminsResp.admins }
+                });
+                dispatch({ type: AdminListActionTypes.SET_LOADING, payload: { loading: false } });
             } else {
-                sendErrorNotification("No Keplr wallet logged in", dispatch);
+                sendErrorNotification("Error during transaction broadcast", dispatch);
+                dispatch({ type: AdminListActionTypes.SET_LOADING, payload: { loading: false } });
             }
         } catch (error) {
             console.log("[Admin deletion error]", error);
-            dispatch({
-                type: AdminListActionTypes.ERROR,
-                payload: { error: "Error during admin deletion: " + error.message }
-            });
+            dispatch({ type: AdminListActionTypes.SET_LOADING, payload: { loading: false } });
+            sendErrorNotification("Error saving new admin: " + error.message, dispatch);
         }
     };
 };
 
-export const saveAdminAction = (adminAddress: string) => {
+export const saveAdminAction = (
+    adminAddress: string,
+    stargateClient: SigningStargateClient,
+    kepler: Keplr
+) => {
     return async (dispatch: Dispatch<AdminActions>): Promise<void> => {
         try {
             console.log("in saving action", adminAddress);
             // Address validation
             const resp = Bech32.decode(adminAddress);
             console.log("decoding", resp);
-            const kepler = await getKeplr();
             if (kepler) {
                 const sender = await getWalletAddress(kepler);
+
                 const msgAddAdminRequest = {
                     admin: adminAddress,
-                    requester: sender
+                    creator: sender
                 };
-                // TODO: add request to node to add admin and fetch new admin list
+                const msgAny = {
+                    typeUrl: "/cosmos.adminmodule.adminmodule.MsgAddAdmin",
+                    value: msgAddAdminRequest
+                };
+
+                const fee = {
+                    amount: coins(0, chainInfo.stakeCurrency.coinMinimalDenom),
+                    gas: "2000000"
+                };
+
                 console.log("sending", msgAddAdminRequest);
-                MOCK_ADMINS.push(adminAddress);
-                dispatch({
-                    type: AdminListActionTypes.SET_LIST,
-                    payload: { admins: MOCK_ADMINS }
-                });
+                dispatch({ type: AdminListActionTypes.SET_LOADING, payload: { loading: true } });
+                const broadcastRes = await stargateClient.signAndBroadcast(sender, [msgAny], fee);
+
+                console.log("broadcast res", broadcastRes);
+
+                if (isBroadcastTxSuccess(broadcastRes)) {
+                    const adminsResp: { admins: string[] } = await lcdClient.get(
+                        "/cosmos/adminmodule/adminmodule/admins"
+                    );
+                    dispatch({
+                        type: AdminListActionTypes.SET_LIST,
+                        payload: { admins: adminsResp.admins }
+                    });
+                } else {
+                    sendErrorNotification("Error during transaction broadcast", dispatch);
+                    dispatch({
+                        type: AdminListActionTypes.SET_LOADING,
+                        payload: { loading: false }
+                    });
+                }
+                dispatch({ type: AdminListActionTypes.SET_LOADING, payload: { loading: false } });
             } else {
-                dispatch({
-                    type: AdminListActionTypes.ERROR,
-                    payload: { error: "No Keplr wallet logged in" }
-                });
+                sendErrorNotification("No Keplr wallet logged in", dispatch);
             }
         } catch (error) {
             console.log("[Admin saving error]", error);
+            dispatch({ type: AdminListActionTypes.SET_LOADING, payload: { loading: false } });
             sendErrorNotification("Error saving new admin: " + error.message, dispatch);
         }
     };
