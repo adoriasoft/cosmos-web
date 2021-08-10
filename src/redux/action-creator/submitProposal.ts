@@ -4,22 +4,7 @@ import { chainInfo } from "../../config";
 import { Coin, coins, isBroadcastTxSuccess } from "@cosmjs/stargate";
 import { getWalletAddress } from "../../cosmos/keplr";
 import { SubmitProposalAction, SubmitProposalTypes } from "../../types/submitProposal";
-import { TextProposal } from "../../cosmos/codec/cosmos/gov/v1beta1/gov";
 import { EncodeObject } from "@cosmjs/proto-signing";
-
-// export const saveSubmitProposalData = (payload: TProposals): SubmitProposalAction => {
-//     return {
-//         type: SubmitProposalTypes.SUBMIT_PROPOSAL_SAVE_DATA,
-//         payload
-//     };
-// };
-//
-// export const saveSubmitProposalDeposits = (payload: Coin[]): SubmitProposalAction => {
-//     return {
-//         type: SubmitProposalTypes.SUBMIT_PROPOSAL_SAVE_DEPOSITS,
-//         payload
-//     };
-// };
 
 export const submitProposal = (content: EncodeObject, deposit: Coin[]) => {
     return async (dispatch: Dispatch<SubmitProposalAction>, getState: () => RootState) => {
@@ -30,7 +15,7 @@ export const submitProposal = (content: EncodeObject, deposit: Coin[]) => {
             } = getState();
 
             if (!isConnected || !stargateClient || !keplr) {
-                return dispatch(errorSubmitProposalData("Wallet is not connected"));
+                return dispatch(setSubmitProposalError("Wallet is not connected"));
             }
             const address = await getWalletAddress(keplr);
             const msg = {
@@ -55,17 +40,23 @@ export const submitProposal = (content: EncodeObject, deposit: Coin[]) => {
                     payload: broadcastRes
                 });
             } else {
-                dispatch(errorSubmitProposalData(broadcastRes.rawLog || "error"));
+                dispatch(setSubmitProposalError(broadcastRes.rawLog || "error"));
             }
         } catch (e) {
-            dispatch(errorSubmitProposalData(e.message || "error"));
+            dispatch(setSubmitProposalError(e.message || "error"));
         }
     };
 };
 
-const errorSubmitProposalData = (error: string): SubmitProposalAction => {
+const setSubmitProposalError = (error: string): SubmitProposalAction => {
     return {
         type: SubmitProposalTypes.SUBMIT_PROPOSAL_ERROR,
         payload: error
+    };
+};
+
+export const submitProposalReset = (): SubmitProposalAction => {
+    return {
+        type: SubmitProposalTypes.SUBMIT_PROPOSAL_RESET
     };
 };

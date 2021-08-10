@@ -2,12 +2,12 @@ import React, { useRef, useState } from "react";
 import {
     ParamChange,
     ParameterChangeProposal as ParameterChangeProposalProc
-} from "../../../cosmos/codec/cosmos/params/v1beta1/params";
+} from "../../../../cosmos/codec/cosmos/params/v1beta1/params";
 import ChangeForm from "./ParamChange/ChangeForm";
 import ChangeItem from "./ParamChange/ChangeItem";
-import { TBaseSPMsg } from "../../../types/submitProposal";
+import { TBaseSPMsg } from "../../../../types/submitProposal";
 import { useDispatch } from "react-redux";
-import { submitProposal } from "../../../redux/action-creator/submitProposal";
+import { submitProposal } from "../../../../redux/action-creator/submitProposal";
 
 const ParameterChangeProposal: React.FC<TBaseSPMsg> = ({ title, description, deposit }) => {
     const [changes, setChanges] = useState<ParamChange[]>([]);
