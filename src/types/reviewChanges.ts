@@ -1,13 +1,7 @@
 export interface ReviewChangesState {
     loading: boolean;
     error: string | null;
-    modules: {
-        bank: BankParams;
-        distribution: DistributionParams;
-        gov: GovParams;
-        slashing: SlashingParams;
-        staking: StakingParams;
-    };
+    modules: IModules;
 }
 
 export enum ReviewChangesActionTypes {
@@ -42,6 +36,14 @@ export interface ErrorAction {
 
 export interface ClearErrorAction {
     type: ReviewChangesActionTypes.CLEAR_ERROR;
+}
+
+export interface IModules {
+    bank: BankParams;
+    distribution: DistributionParams;
+    gov: GovParams;
+    slashing: SlashingParams;
+    staking: StakingParams;
 }
 
 export interface BankParams {

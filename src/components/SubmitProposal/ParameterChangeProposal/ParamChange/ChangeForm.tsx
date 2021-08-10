@@ -1,22 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ParamChange } from "../../../../cosmos/codec/cosmos/params/v1beta1/params";
-import { coin } from "@cosmjs/stargate";
 import Select from "react-select";
+import { useTypedSelector } from "../../../../redux/useTypedSelector";
+import { IModules } from "../../../../types/reviewChanges";
+import { useDispatch } from "react-redux";
+import { fetchParamsList } from "../../../../redux/action-creator/reviewChanges";
 
 interface IChangeFormProps {
     addChange: (change: ParamChange) => void;
 }
 
+type KeysOfModules = keyof IModules;
+
 const ChangeForm: React.FC<IChangeFormProps> = ({ addChange }) => {
-    const [subspace, setSubspace] = useState("");
+    const [subspace, setSubspace] = useState<KeysOfModules>("" as KeysOfModules);
     const [key, setKey] = useState("");
     const [value, setValue] = useState("");
+    const modules = useTypedSelector((state) => state.reviewChanges.modules);
 
-    const subOptions = Object.keys(paramOptions).map((key) => ({ value: key, label: key }));
-    const keyOptions = paramOptions[subspace]
-        ? paramOptions[subspace].map((key) => ({ value: key, label: key }))
+    const subOptions = Object.keys(modules).map((key) => ({ value: key, label: key }));
+    const keyOptions = modules[subspace]
+        ? Object.keys(modules[subspace]).map((key) => ({ value: key, label: key }))
         : [];
 
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(fetchParamsList());
+    }, []);
     return (
         <div className="parameter-change-form">
             <div className={"input-params"}>
@@ -25,8 +35,11 @@ const ChangeForm: React.FC<IChangeFormProps> = ({ addChange }) => {
                         menuPlacement={"top"}
                         options={subOptions}
                         onChange={(e) => {
-                            setSubspace(e?.value || subspace);
-                            setKey(paramOptions[e?.value || subspace][0]);
+                            const value: KeysOfModules = e?.value
+                                ? (e.value as KeysOfModules)
+                                : subspace;
+                            setSubspace(value);
+                            if (modules[value]) setKey(Object.keys(modules[value])[0]);
                         }}
                         placeholder={"Subspace"}
                     />
@@ -63,45 +76,3 @@ const ChangeForm: React.FC<IChangeFormProps> = ({ addChange }) => {
 };
 
 export default ChangeForm;
-
-type tParamOptions = {
-    [key: string]: string[];
-};
-
-const paramOptions: tParamOptions = {
-    auth: [
-        "MaxMemoCharacters",
-        "TxSigLimit",
-        "TxSizeCostPerByte",
-        "SigVerifyCostED25519",
-        "SigVerifyCostSecp256k1"
-    ],
-    bank: ["sendenabled"],
-    gov: ["depositparams", "votingparams", "tallyparams"],
-    staking: ["UnbondingTime", "MaxValidators", "KeyMaxEntries", "HistoricalEntries", "BondDenom"],
-    slashing: [
-        "SignedBlocksWindow",
-        "MinSignedPerWindow",
-        "DowntimeJailDuration",
-        "SlashFractionDoubleSign",
-        "SlashFractionDowntime"
-    ],
-    distribution: [
-        "communitytax",
-        "secretfoundationtax",
-        "secretfoundationaddress",
-        "baseproposerreward",
-        "bonusproposerreward",
-        "withdrawaddrenabled"
-    ],
-    crisis: ["ConstantFee"],
-    mint: [
-        "MintDenom",
-        "InflationRateChange",
-        "InflationMax",
-        "InflationMin",
-        "GoalBonded",
-        "BlocksPerYear"
-    ],
-    evidence: ["MaxEvidenceAge"]
-};
