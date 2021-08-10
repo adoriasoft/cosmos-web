@@ -4,22 +4,7 @@ import { chainInfo } from "../../config";
 import { Coin, coins, isBroadcastTxSuccess } from "@cosmjs/stargate";
 import { getWalletAddress } from "../../cosmos/keplr";
 import { SubmitProposalAction, SubmitProposalTypes } from "../../types/submitProposal";
-import { TextProposal } from "../../cosmos/codec/cosmos/gov/v1beta1/gov";
 import { EncodeObject } from "@cosmjs/proto-signing";
-
-// export const saveSubmitProposalData = (payload: TProposals): SubmitProposalAction => {
-//     return {
-//         type: SubmitProposalTypes.SUBMIT_PROPOSAL_SAVE_DATA,
-//         payload
-//     };
-// };
-//
-// export const saveSubmitProposalDeposits = (payload: Coin[]): SubmitProposalAction => {
-//     return {
-//         type: SubmitProposalTypes.SUBMIT_PROPOSAL_SAVE_DEPOSITS,
-//         payload
-//     };
-// };
 
 export const submitProposal = (content: EncodeObject, deposit: Coin[]) => {
     return async (dispatch: Dispatch<SubmitProposalAction>, getState: () => RootState) => {
